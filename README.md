@@ -29,3 +29,7 @@
 
 1. Navigate to src/test/java/step_defs
 2. Add a new step definition file ( or ) edit the existing ones to add step definition
+
+# Test Results
+
+Based on the feature file, the checkout urls will be written to src/main/resources/props/checkoutUrls.properties file
