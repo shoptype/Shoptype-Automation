@@ -3,7 +3,11 @@ package step_defs;
 import java.io.IOException;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.PageFactory;
+
+import com.cucumber.listener.Reporter;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -34,8 +38,16 @@ public class Hooks extends BaseClass{
 	}
 	
 	@After("@user_creation")
-	public void afterHook() throws IOException, InterruptedException {
-
+	public void afterHook(Scenario scenario) throws IOException, InterruptedException {
+		
+		if (scenario.isFailed()) {
+			
+			TakesScreenshot shot = (TakesScreenshot) driver;
+			String destination = "data:image/png;base64," + shot.getScreenshotAs(OutputType.BASE64);
+			Reporter.addScreenCaptureFromPath(destination);
+			
+		}
+		
 		driver.quit();
 
 	}
