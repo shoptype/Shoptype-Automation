@@ -50,10 +50,19 @@ public class MultipleProductCheckout extends BaseClass{
 			logger.info("Url - " + urls.get(i));
 			wait.until(ExpectedConditions.visibilityOf(checkout.buyNow));
 			je.executeScript("arguments[0].scrollIntoView(true);", checkout.buyNow);
-			Thread.sleep(2000);
-			checkout.buyNow.click();
-			logger.info("Clicked on buy now for " + (i+1) + " url");
-			wait.until(ExpectedConditions.visibilityOf(checkout.checkout));
+			Thread.sleep(4000);
+
+			if(checkout.buyNow.isEnabled()) {
+				
+				checkout.buyNow.click();
+				logger.info("Clicked on buy now for " + (i+1) + " url");
+				wait.until(ExpectedConditions.visibilityOf(checkout.checkout));
+				
+			} else {
+				
+				logger.info("Product is out of stock !!!");
+				
+			} 
 			
 		}
 		
@@ -76,9 +85,9 @@ public class MultipleProductCheckout extends BaseClass{
 		checkout.email.sendKeys("shoptype@mailinator.com");
 		logger.info("Email - shoptype@mailinator.com");
 		checkout.location.sendKeys("4498 Woodford Pass");
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 		checkout.location.sendKeys(Keys.chord(Keys.ARROW_DOWN, Keys.ENTER));
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 		logger.info("Selected location - " + checkout.location.getText());
 		checkout.continueCheckout.click();
 		logger.info("Clicked on continue");
