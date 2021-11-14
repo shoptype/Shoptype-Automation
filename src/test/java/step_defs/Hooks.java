@@ -1,17 +1,13 @@
 package step_defs;
 
 import java.io.IOException;
-
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.PageFactory;
-
-import com.cucumber.listener.Reporter;
-
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import pages.BaseClass;
 import pages.CosellerOnboard;
 import pages.Login;
@@ -42,29 +38,15 @@ public class Hooks extends BaseClass{
 		
 		if (scenario.isFailed()) {
 			
-			TakesScreenshot shot = (TakesScreenshot) driver;
-			String destination = "data:image/png;base64," + shot.getScreenshotAs(OutputType.BASE64);
-			Reporter.addScreenCaptureFromPath(destination);
+			TakesScreenshot ss = (TakesScreenshot) driver;
+			byte[] image = ss.getScreenshotAs(OutputType.BYTES);
+		    scenario.attach(image, "image/png", scenario.getName().toString());
 			
 		}
 		
 		driver.quit();
 
 	}
-
-//	@Before("@network_url")
-//	public void beforeHookNetwork(Scenario scenario) throws IOException {
-//		
-//		scenarioName = scenario.getName();
-//		BaseClass.initChromeBrowser(platformUrl);
-//		signUp = PageFactory.initElements(driver, SignUp.class);
-//		login = PageFactory.initElements(driver, Login.class);
-//		vendorOnboard = PageFactory.initElements(driver, VendorOnboard.class);
-//		cosellerOnboard = PageFactory.initElements(driver, CosellerOnboard.class);
-//		networkOnboard = PageFactory.initElements(driver, NetworkOnboard.class);
-//		PropertyConfigurator.configure(System.getProperty("user.dir") + "/log4j.properties");
-//
-//	}
 		
 	@Before("@api")
 	public void apiBeforehook(Scenario scenario) {

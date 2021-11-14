@@ -1,5 +1,6 @@
 Feature: Mulitple products checkout
-
+	
+	@user_creation
 	Scenario: Checkout multiple products in a single cart
 		Given The list of products are obtained
 		When All the products are added to cart

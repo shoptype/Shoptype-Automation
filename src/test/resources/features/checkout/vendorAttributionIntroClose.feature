@@ -1,4 +1,4 @@
-Feature: Vendor Level Attribution ( Intro and Close)
+Feature: Vendor Level Attribution Intro and Close
 
 	@user_creation
   Scenario: Vendor Sign Up

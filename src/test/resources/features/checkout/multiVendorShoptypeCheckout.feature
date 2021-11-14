@@ -1,4 +1,4 @@
-Feature: Multi Vendor Checkout - Shoptype ( 2 vendors )
+Feature: Multi Vendor Checkout on Shoptype
 
 	@user_creation
   Scenario: First Vendor Sign In

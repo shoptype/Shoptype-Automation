@@ -2,15 +2,14 @@ package step_defs;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import api_requests.APIRequest;
 import api_requests.Payload;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
 import pages.BaseClass;
 import utilities.Utilities;
 

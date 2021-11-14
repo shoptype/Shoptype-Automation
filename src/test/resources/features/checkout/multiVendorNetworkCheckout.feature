@@ -1,4 +1,4 @@
-Feature: Multi Vendor Checkout - Platform / Network URL ( 2 vendors )
+Feature: Multi Vendor Checkout on Platform
 	
 	@user_creation
   Scenario: Netowrk Sign In
