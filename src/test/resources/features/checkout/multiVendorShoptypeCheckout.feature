@@ -124,7 +124,7 @@ Feature: Multi Vendor Checkout on Shoptype
 		Then Checkout Id and Redirect Uri should be obtained
 
 	@user_creation
-	Scenario: Checkout on platform
+	Scenario: Checkout on shoptype
 		Given Checkout Url is obtained
 		When A checkout happens
 		Then The order should be placed

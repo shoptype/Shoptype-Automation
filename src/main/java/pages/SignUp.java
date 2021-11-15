@@ -1,6 +1,7 @@
 package pages;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -37,10 +38,10 @@ public class SignUp {
 	public WebElement phone;
 	
 	@FindBy(css="input[name='email']")
-	public WebElement email;
+	public List<WebElement> email;
 
 	@FindBy(css="input[name='password']")
-	public WebElement password;
+	public List<WebElement> password;
 	
 	@FindBy(xpath="//button[text()='Sign Up']")
 	public WebElement signUp;
@@ -48,7 +49,7 @@ public class SignUp {
 	@FindBy(xpath="//div[contains(text(), 'Email already exist')]")
 	public WebElement userExists;
 	
-	public void registerNewUser(WebDriverWait wait, HashMap<String, String> data) {
+	public void registerNewUser(WebDriverWait wait, HashMap<String, String> data) throws InterruptedException {
 		
 		firstName.sendKeys(data.get("first_name"));
 		lastName.sendKeys(data.get("last_name"));
@@ -58,8 +59,17 @@ public class SignUp {
 		wait.until(ExpectedConditions.visibilityOf(countryCode));
 		countryCode.click();
 		phone.sendKeys(data.get("phone_number"));
-		email.sendKeys(data.get("email"));
-		password.sendKeys(data.get("password"));
+		Thread.sleep(3000);
+		try {
+			email.get(0).sendKeys(data.get("email"));
+		} catch (Exception e) {
+			email.get(1).sendKeys(data.get("email"));
+		}
+		try {
+			password.get(0).sendKeys(data.get("password"));
+		} catch (Exception e) {
+			password.get(1).sendKeys(data.get("password"));
+		}
 		signUp.click();
 		
 	}

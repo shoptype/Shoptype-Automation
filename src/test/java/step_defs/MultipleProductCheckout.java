@@ -78,7 +78,8 @@ public class MultipleProductCheckout extends BaseClass {
 		logger.info("Name - Automation Checkout");
 		checkout.phone.sendKeys("8888888888");
 		logger.info("Phone - 8888888888");
-		checkout.email.sendKeys("shoptype@mailinator.com");
+		autoRegisteredEmail = Utilities.getNewEmailId();
+		checkout.email.sendKeys(autoRegisteredEmail);
 		logger.info("Email - shoptype@mailinator.com");
 		checkout.location.sendKeys("4498 Woodford Pass");
 		Thread.sleep(4000);
@@ -107,7 +108,7 @@ public class MultipleProductCheckout extends BaseClass {
 		wait.until(ExpectedConditions.elementToBeClickable(checkout.phoneNumber));
 		checkout.phoneNumber.sendKeys("1234567890");
 		logger.info("Entered phone number 1234567890 on payment screen");
-
+		
 		driver.switchTo().frame(checkout.paymentIframe);
 		logger.info("Switched to payment iframe");
 		checkout.cardNumber.sendKeys("4242424242424242");

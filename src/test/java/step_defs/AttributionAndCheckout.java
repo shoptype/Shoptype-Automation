@@ -770,6 +770,7 @@ public class AttributionAndCheckout extends BaseClass {
 			} else if(userNumber.equalsIgnoreCase("first")) {
 				
 				data = Utilities.readExcel("vendor", "1");
+				vendorEmail = data.get("email");
 				logger.info("Trying to Sign In as Vendor");
 				
 			} else if(userNumber.equalsIgnoreCase("second")) {

@@ -164,19 +164,59 @@ public class Utilities {
 		
 	}
 
-	public static boolean isElementPresent(WebDriver driver, WebDriverWait wait, WebElement element) {
+	public static boolean isElementPresent(WebDriver driver, WebDriverWait wait, String locator) {
 
+		boolean isFound = false;
+		
 		try {
-
-			wait.until(ExpectedConditions.visibilityOf(element));
-			return true;
+				
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+				isFound = true;
 
 		} catch (Exception e) {
 
-			return false;
+			isFound = false;
 
 		}
+		
+		return isFound;
 
+	}
+	
+	public static boolean verifyNotifications(WebDriver driver, WebDriverWait wait, String email, String emailType) throws InterruptedException {
+
+		boolean isEmailVerified = false;
+		
+		Thread.sleep(3000);
+		driver.get("https://www.mailinator.com/v4/public/inboxes.jsp?to=" + email);
+		Thread.sleep(3000);
+		driver.navigate().refresh();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'GO') and contains(@class, 'primary')]"))).click();
+		Thread.sleep(3000);
+		if(emailType.contains("verify") || emailType.contains("otp") || emailType.contains("auto registered")) {
+			
+			isEmailVerified = Utilities.isElementPresent(driver, wait, 
+									"//table[@class='table-striped jambo_table']//td[contains(text(), 'Verify Email')]");
+		
+		} else if(emailType.contains("reset password")) {
+			
+			isEmailVerified = Utilities.isElementPresent(driver, wait, 
+									"//table[@class='table-striped jambo_table']//td[contains(text(),'Reset Password')]");
+			
+		} else if(emailType.contains("order") || emailType.contains("vendor")) {
+			
+			isEmailVerified = Utilities.isElementPresent(driver, wait, 
+									"//table[@class='table-striped jambo_table']//td[contains(text(), 'confirmed')]");
+			
+		} else if(emailType.contains("referral")) {
+			
+			isEmailVerified = Utilities.isElementPresent(driver, wait, 
+					"//table[@class='table-striped jambo_table']//td[contains(text(), 'Join Shoptype')]");
+			
+		}
+
+		return isEmailVerified;
+		
 	}
 
 	public static boolean verifyEmail(WebDriver driver, WebDriverWait wait, String email) throws InterruptedException {

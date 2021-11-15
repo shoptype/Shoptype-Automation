@@ -31,6 +31,7 @@ public class BaseClass {
 	public static CosellerOnboard cosellerOnboard;
 	public static NetworkOnboard networkOnboard;
 	public static Checkout checkout;
+	public static Notifications notifications;
 	
 	public static String cosellerAuthToken;
 	public static String networkAuthToken;
@@ -64,7 +65,10 @@ public class BaseClass {
 	public static String secondVendorPublishSlug;
 	public static String secondVendorTrackerId;
 	public static String secondVendorPublishProductUrl;
-
+	
+	public static String autoRegisteredEmail;
+	public static String vendorEmail;
+	public static String cosellerEmail;
 
 	public static void initChromeBrowser(String url) throws IOException {
 		

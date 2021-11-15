@@ -16,6 +16,7 @@ import pages.Login;
 import pages.NetworkOnboard;
 import pages.SignUp;
 import pages.VendorOnboard;
+import pages.Notifications;
 import utilities.Utilities;
 
 public class Hooks extends BaseClass{
@@ -33,6 +34,7 @@ public class Hooks extends BaseClass{
 		cosellerOnboard = PageFactory.initElements(driver, CosellerOnboard.class);
 		networkOnboard = PageFactory.initElements(driver, NetworkOnboard.class);
 		checkout = PageFactory.initElements(driver, Checkout.class);
+		notifications = PageFactory.initElements(driver, Notifications.class);
 		PropertyConfigurator.configure(System.getProperty("user.dir") + "/log4j.properties");
 
 	}

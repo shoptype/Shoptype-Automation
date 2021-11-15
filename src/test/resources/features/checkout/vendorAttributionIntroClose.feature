@@ -79,7 +79,7 @@ Feature: Vendor Level Attribution Intro and Close
 		Then Checkout Id and Redirect Uri should be obtained
 
 	@user_creation
-	Scenario: Checkout on platform
+	Scenario: Checkout on shoptype for vendor attribution
 		Given Checkout Url is obtained
 		When A checkout happens
 		Then The order should be placed
