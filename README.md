@@ -32,4 +32,4 @@
 
 # Test Results
 
-Based on the feature file, the checkout urls will be written to src/main/resources/props/checkoutUrls.properties file
+Test report will be available in target/Spark/ExtentSpark.html
