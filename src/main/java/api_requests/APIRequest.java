@@ -147,14 +147,29 @@ public class APIRequest {
 
 	}
 	
-	public static Response createCheckout(String baseUri, String apiKey, String device_id, String cart_id) {
+	public static Response createCheckout(String baseUri, String apiKey, String device_id, String cart_id, String platform_id) {
 		
 		apiresource = ApiResources.valueOf("CreateCheckout");
-		request = getSpecswithoutToken(baseUri)
-				.header("X-Shoptype-Api-Key", apiKey.replace("\"", ""))
-				.header("Referer", "https://beta.shoptype.com/")
-				.header("Origin", "https://beta.shoptype.com/")
-				.body(Payload.createCheckout(device_id, cart_id));
+		
+		if(platform_id != null) {
+			
+			request = getSpecswithoutToken(baseUri)
+					.header("X-Shoptype-Api-Key", apiKey.replace("\"", ""))
+					.header("Referer", "https://beta.shoptype.com/")
+					.header("Origin", "https://beta.shoptype.com/")
+					.header("X-Shoptype-PlatformId", platform_id.replace("\"", ""))
+					.body(Payload.createCheckout(device_id, cart_id));
+			
+		} else {
+			
+			request = getSpecswithoutToken(baseUri)
+					.header("X-Shoptype-Api-Key", apiKey.replace("\"", ""))
+					.header("Referer", "https://beta.shoptype.com/")
+					.header("Origin", "https://beta.shoptype.com/")
+					.body(Payload.createCheckout(device_id, cart_id));
+			
+		}
+		
 		response = request.post(apiresource.getResource());
 		return response;
 		

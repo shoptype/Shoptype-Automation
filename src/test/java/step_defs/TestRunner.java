@@ -12,7 +12,8 @@ import io.cucumber.junit.Cucumber;
 		plugin = {
 				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:" 
 				},
-		monochrome = true
+		monochrome = true,
+		dryRun = false
 
 )
 

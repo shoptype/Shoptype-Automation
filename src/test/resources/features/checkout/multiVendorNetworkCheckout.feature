@@ -1,7 +1,7 @@
 Feature: Multi Vendor Checkout on Platform
 	
 	@user_creation
-  Scenario: Netowrk Sign In
+  Scenario: Network Sign In
     Given User opens the website and signs in as existing user
     When User enters all the required details to signin as "" "Network"
     And Clicks on "Network"
@@ -76,7 +76,7 @@ Feature: Multi Vendor Checkout on Platform
 		Given Authorization token, "Second" vendor id, coseller id, product id and link is obtained
 		When Publish product API is hit
 		Then Publish should be recorded for that coseller
-
+		
 	@api
 	Scenario: Track User Event and Create Click Event for first vendor product
 		Given Device id, tracker id and platform url is obtained for "First" vendor product
@@ -109,10 +109,12 @@ Feature: Multi Vendor Checkout on Platform
 
 	@api
 	Scenario: Create Checkout
-		Given Device Id and Cart id obtained   
-		When Create Checkout is hit
+		Given Device Id, cart id and platform id is obtained   
+		When Create checkout api is hit with platform id
 		Then Checkout Id and Redirect Uri should be obtained
 
-	Scenario: Add the checkout url to property file
-		Given Checkout Url is obtained 
-		Then "Multi Vendor Platform Specific" Checkout Url should be written to file
+	@user_creation
+	Scenario: Checkout on platform
+		Given Checkout Url is obtained
+		When A checkout happens
+		Then The order should be placed

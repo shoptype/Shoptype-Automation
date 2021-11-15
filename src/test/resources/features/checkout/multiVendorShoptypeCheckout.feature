@@ -120,10 +120,12 @@ Feature: Multi Vendor Checkout on Shoptype
 	@api
 	Scenario: Create Checkout
 		Given Device Id and Cart id obtained   
-		When Create Checkout is hit
+		When Create Checkout API is hit
 		Then Checkout Id and Redirect Uri should be obtained
 
-	Scenario: Add the checkout url to property file
-		Given Checkout Url is obtained 
-		Then "Multi Vendor Shoptype" Checkout Url should be written to file
+	@user_creation
+	Scenario: Checkout on platform
+		Given Checkout Url is obtained
+		When A checkout happens
+		Then The order should be placed
 

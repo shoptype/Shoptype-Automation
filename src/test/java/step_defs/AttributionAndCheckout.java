@@ -551,60 +551,32 @@ public class AttributionAndCheckout extends BaseClass {
 	@Given("^Authorization token, \"([^\"]*)\" vendor id, coseller id, product id and link is obtained$")
 	public void get_publish_product_payload(String userNumber) throws IOException {
 		
-		logger.info(" =========== " + scenarioName + " =========== ");		
-			
-		data = Utilities.readExcel("Specific Product", "");
-		
-		if(data.get("product_url_1") != null) {
-			
-			logger.info("Picking product url from sheet");
-			
-			if(userNumber.equalsIgnoreCase("")) {
-				
-				publishProductUrl = data.get("product_url_1");
-				logger.info("Publish Product Url - " + publishProductUrl);
-				payload = Payload.publishProduct(vendorId, cosellerUserId.replace("\"", ""), publishProductUrl, productId);
-				
-			} else if(userNumber.equalsIgnoreCase("first")) { 
-				
-				firstVendorPublishProductUrl = data.get("product_url_1");
-				logger.info("First Vendor Publish Product Url - " + firstVendorPublishProductUrl);
-				payload = Payload.publishProduct(firstVendorId, cosellerUserId.replace("\"", ""), firstVendorPublishProductUrl, firstVendorProductId);
-				
-			} else if(userNumber.equalsIgnoreCase("second")) {
-				
-				secondVendorPublishProductUrl = data.get("product_url_2");
-				logger.info("Second Vendor Publish Product Url - " + secondVendorPublishProductUrl);
-				payload = Payload.publishProduct(secondVendorId, cosellerUserId.replace("\"", ""), secondVendorPublishProductUrl, secondVendorProductId);
-				
-			}
-					
-		} else {
-			
-			logger.info("Picking product url in random");
-			
-			if(userNumber.equalsIgnoreCase("")) {
-				
-				publishProductUrl = "https://beta.shoptype.com" + publishSlug;
-				logger.info("Publish Product Url - " + publishProductUrl);
-				payload = Payload.publishProduct(vendorId, cosellerUserId.replace("\"", ""), publishProductUrl, productId);
-				
-			} else if(userNumber.equalsIgnoreCase("first")) {
-				
-				firstVendorPublishProductUrl = "https://beta.shoptype.com" + firstVendorPublishSlug;
-				logger.info("Publish Product Url - " + firstVendorPublishProductUrl);
-				payload = Payload.publishProduct(firstVendorId, cosellerUserId.replace("\"", ""), firstVendorPublishProductUrl, firstVendorProductId);
-				
-			} else if(userNumber.equalsIgnoreCase("second")) {
-				
-				secondVendorPublishProductUrl = "https://beta.shoptype.com" + secondVendorPublishSlug;
-				logger.info("Publish Product Url - " + secondVendorPublishProductUrl);
-				payload = Payload.publishProduct(secondVendorId, cosellerUserId.replace("\"", ""), secondVendorPublishProductUrl, secondVendorProductId);
-				
-			}
-			
+		logger.info(" =========== " + scenarioName + " =========== ");
+
+		logger.info("Picking product url in random");
+
+		if (userNumber.equalsIgnoreCase("")) {
+
+			publishProductUrl = "https://beta.shoptype.com" + publishSlug;
+			logger.info("Publish Product Url - " + publishProductUrl);
+			payload = Payload.publishProduct(vendorId, cosellerUserId.replace("\"", ""), publishProductUrl, productId);
+
+		} else if (userNumber.equalsIgnoreCase("first")) {
+
+			firstVendorPublishProductUrl = "https://beta.shoptype.com" + firstVendorPublishSlug;
+			logger.info("Publish Product Url - " + firstVendorPublishProductUrl);
+			payload = Payload.publishProduct(firstVendorId, cosellerUserId.replace("\"", ""),
+					firstVendorPublishProductUrl, firstVendorProductId);
+
+		} else if (userNumber.equalsIgnoreCase("second")) {
+
+			secondVendorPublishProductUrl = "https://beta.shoptype.com" + secondVendorPublishSlug;
+			logger.info("Publish Product Url - " + secondVendorPublishProductUrl);
+			payload = Payload.publishProduct(secondVendorId, cosellerUserId.replace("\"", ""),
+					secondVendorPublishProductUrl, secondVendorProductId);
+
 		}
-		
+
 		logger.info("Payload - " + payload);
 		
 	}
@@ -631,7 +603,6 @@ public class AttributionAndCheckout extends BaseClass {
 	public void get_tracker_id_and_url(String userNumber) {
 		
 		logger.info(" =========== " + scenarioName + " =========== ");
-		deviceId = Utilities.getDeviceId();
 		
 		if(userNumber.equalsIgnoreCase("")) {
 			
@@ -765,10 +736,10 @@ public class AttributionAndCheckout extends BaseClass {
 		
 	}
 	
-	@When("^Create Checkout is hit$")
+	@When("^Create Checkout API is hit$")
 	public void create_checkout_api() {
 		
-		response = APIRequest.createCheckout(prop.getProperty("backend_beta_url"), shoptypeApiKey, deviceId, cartId);
+		response = APIRequest.createCheckout(prop.getProperty("backend_beta_url"), shoptypeApiKey, deviceId, cartId, null);
 		logger.info("Response Code from Create Checkout API - " + response.statusCode());
 		logger.info("Response from Create Checkout API - " + response.getBody().asPrettyString());
 		

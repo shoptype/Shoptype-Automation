@@ -1,26 +1,24 @@
 package step_defs;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import pages.BaseClass;
-import pages.Checkout;
 import utilities.Utilities;
 
 public class MultipleProductCheckout extends BaseClass {
 
 	public static List<String> urls;
 	String parentWindow;
-	public static JavascriptExecutor je;
 	protected static final Logger logger = LogManager.getLogger(MultipleProductCheckout.class.getName());
 
 	@Given("^The list of products are obtained$")
@@ -35,8 +33,6 @@ public class MultipleProductCheckout extends BaseClass {
 	public void all_the_products_are_added_to_cart() throws Throwable {
 
 		driver.get(urls.get(0));
-		je = (JavascriptExecutor) driver;
-		checkout = PageFactory.initElements(driver, Checkout.class);
 		wait.until(ExpectedConditions.visibilityOf(checkout.buyNow));
 		je.executeScript("arguments[0].scrollIntoView(true);", checkout.buyNow);
 		checkout.buyNow.click();
@@ -67,15 +63,15 @@ public class MultipleProductCheckout extends BaseClass {
 		}
 
 		logger.info("Added all elements to cart");
+		wait.until(ExpectedConditions.elementToBeClickable(checkout.checkout));
+		checkout.checkout.click();
+		logger.info("Clicked on checkout");
 
 	}
 
 	@When("^A checkout happens$")
 	public void a_checkout_happens() throws Throwable {
 
-		wait.until(ExpectedConditions.elementToBeClickable(checkout.checkout));
-		checkout.checkout.click();
-		logger.info("Clicked on checkout");
 		logger.info("Adding shipping details");
 		wait.until(ExpectedConditions.elementToBeClickable(checkout.name));
 		checkout.name.sendKeys("Automation Checkout");
@@ -96,7 +92,16 @@ public class MultipleProductCheckout extends BaseClass {
 		action.moveToElement(checkout.continueCheckout).click().perform();
 		logger.info("Clicked on continue on checkout");
 
-		wait.until(ExpectedConditions.elementToBeClickable(checkout.continuePayment));
+		try {
+			
+			wait.until(ExpectedConditions.elementToBeClickable(checkout.continuePayment));
+			
+		} catch (NoSuchElementException e) {
+			
+			action.moveToElement(checkout.continueCheckout).click().perform();
+			wait.until(ExpectedConditions.elementToBeClickable(checkout.continuePayment));
+			
+		}
 		checkout.continuePayment.click();
 		logger.info("Clicked on continue to payment");
 		wait.until(ExpectedConditions.elementToBeClickable(checkout.phoneNumber));
@@ -159,8 +164,6 @@ public class MultipleProductCheckout extends BaseClass {
 		}
 				
 		logger.info("Order placed successfully");
-		Thread.sleep(3000);
-		driver.quit();
 		
 	}
 

@@ -3,18 +3,22 @@ package pages;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.response.Response;
+import utilities.Utilities;
 
 public class BaseClass {
 
 	public static WebDriver driver;
 	public static WebDriverWait wait;
 	public static Properties prop;
+	public static JavascriptExecutor je;
 	public static Properties checkoutProp;
 	public static String scenarioName;
 	public static String payload;
@@ -36,7 +40,7 @@ public class BaseClass {
 	
 	public static String shoptypeApiKey;
 	public static String cartId;
-	public static String deviceId;
+	public static String deviceId = Utilities.getDeviceId();
 	public static String currency;
 	public static String checkoutId;
 	public static String redirectUri;
