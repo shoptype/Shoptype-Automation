@@ -1,8 +1,6 @@
 package step_defs;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -97,7 +95,7 @@ public class MultipleProductCheckout extends BaseClass {
 			
 			wait.until(ExpectedConditions.elementToBeClickable(checkout.continuePayment));
 			
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
 			
 			action.moveToElement(checkout.continueCheckout).click().perform();
 			wait.until(ExpectedConditions.elementToBeClickable(checkout.continuePayment));
