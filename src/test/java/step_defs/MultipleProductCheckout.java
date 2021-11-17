@@ -84,7 +84,7 @@ public class MultipleProductCheckout extends BaseClass {
 		checkout.location.sendKeys(Keys.chord(Keys.ARROW_DOWN, Keys.ENTER));
 		logger.info("Selected location");
 
-		Thread.sleep(10000);
+		Thread.sleep(5000);
 		je.executeScript("arguments[0].scrollIntoView();", checkout.continueCheckout);
 		Thread.sleep(5000);
 		Actions action = new Actions(driver);
@@ -99,26 +99,34 @@ public class MultipleProductCheckout extends BaseClass {
 			
 			action.moveToElement(checkout.continueCheckout).click().perform();
 			wait.until(ExpectedConditions.elementToBeClickable(checkout.continuePayment));
-			
 		}
+		
+		Thread.sleep(5000);
 		checkout.continuePayment.click();
 		logger.info("Clicked on continue to payment");
-		wait.until(ExpectedConditions.elementToBeClickable(checkout.phoneNumber));
+		
+		
+		wait.until(ExpectedConditions.visibilityOf(checkout.paymentModal));
 		checkout.phoneNumber.sendKeys("1234567890");
 		logger.info("Entered phone number 1234567890 on payment screen");
 		
+		Thread.sleep(5000);
 		driver.switchTo().frame(checkout.paymentIframe);
 		logger.info("Switched to payment iframe");
+		
+		wait.until(ExpectedConditions.elementToBeClickable(checkout.cardNumber));
 		checkout.cardNumber.sendKeys("4242424242424242");
 		logger.info("Entered card number - 4242424242424242");
+		
 		checkout.expiryDate.sendKeys("0228");
 		logger.info("Entered expiry date - 02/28");
 		checkout.cvc.sendKeys("4242");
 		logger.info("Entered CVV - 4242");
-
-		driver.switchTo().parentFrame();
+		
+		driver.switchTo().defaultContent();
 		logger.info("Switched back to payment iframe");
-		wait.until(ExpectedConditions.visibilityOf(checkout.pay));
+		
+		wait.until(ExpectedConditions.elementToBeClickable(checkout.pay));
 		checkout.pay.click();
 		Thread.sleep(3000);
 		logger.info("Clicked on pay now");

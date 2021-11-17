@@ -21,7 +21,13 @@ public class Checkout {
 	@FindBy(xpath = "//button[contains(text(), 'Checkout')]")
 	public WebElement checkout;
 	
-	@FindBy(xpath = "//iframe[@title='Secure card payment input frame']")
+	@FindBy(css = "#stripe-payment-modal")
+	public WebElement paymentModal;
+	
+	@FindBy(css = "#card-element")
+	public WebElement cardElement;
+	
+	@FindBy(xpath = "//iframe[contains(@name, 'privateStripeFrame')]")
 	public WebElement paymentIframe;
 	
 	@FindBy(css = "input[name='name']")
