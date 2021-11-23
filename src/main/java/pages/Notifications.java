@@ -23,13 +23,10 @@ public class Notifications {
 	@FindBy(xpath = "//button[contains(text(), 'Send')]")
 	public WebElement sendForgotPasswordEmail;
 	
-	@FindBy(xpath = "//button[contains(text(), 'Cosell')]")
-	public WebElement cosell;
-	
 	@FindBy(css = "input[name='to']")
 	public WebElement toEmail;
 	
 	@FindBy(css = "input[name='subject']")
 	public WebElement subject;
-	
+		
 }

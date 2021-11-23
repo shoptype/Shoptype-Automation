@@ -135,17 +135,21 @@ public class Notifications extends BaseClass{
 	@When("The user clicks on cosell and registers as a  new user")
 	public void coseller_signup() throws IOException, InterruptedException {
 		
-		wait.until(ExpectedConditions.elementToBeClickable(notifications.cosell));
-		notifications.cosell.click();
-		wait.until(ExpectedConditions.elementToBeClickable(signUp.signUp));
-		signUp.signUp.click();
+		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.cosell));
+		cosellerRegistration.cosell.click();
+		je.executeScript("arguments[0].scrollIntoView();", cosellerRegistration.cosellRegister);
+		cosellerRegistration.cosellRegister.click();
+		logger.info("Clicked on register button");
+		je.executeScript("arguments[0].scrollIntoView();", cosellerRegistration.signUpCosell);
+		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.signUpCosell));
+		cosellerRegistration.signUpCosell.click();
 		logger.info("Clicked on coseller sign up button");
 		signUpData = Utilities.createTestData("coseller");
 		logger.info("User Data - " + signUpData);
 		cosellerEmail = signUpData.get("email");
 		
-		wait.until(ExpectedConditions.elementToBeClickable(signUp.firstName));
-		signUp.registerNewUser(wait, signUpData);
+		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.firstName));
+		cosellerRegistration.registerCoseller(signUpData);
 		logger.info("Registered as a coseller");
 		
 	}
@@ -169,9 +173,6 @@ public class Notifications extends BaseClass{
 		cosellerEmail = Utilities.getNewEmailId();
 		notifications.toEmail.sendKeys(cosellerEmail);
 		logger.info("Referring user with email id - " + cosellerEmail);
-		
-		notifications.subject.sendKeys("Join Shoptype");
-		logger.info("Entered email subject - Join Shoptype");
 		
 	}
 	

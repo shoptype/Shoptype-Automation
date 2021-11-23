@@ -12,6 +12,7 @@ import io.cucumber.java.Scenario;
 import pages.BaseClass;
 import pages.Checkout;
 import pages.CosellerOnboard;
+import pages.CosellerRegistration;
 import pages.Login;
 import pages.NetworkOnboard;
 import pages.SignUp;
@@ -35,6 +36,7 @@ public class Hooks extends BaseClass{
 		networkOnboard = PageFactory.initElements(driver, NetworkOnboard.class);
 		checkout = PageFactory.initElements(driver, Checkout.class);
 		notifications = PageFactory.initElements(driver, Notifications.class);
+		cosellerRegistration = PageFactory.initElements(driver, CosellerRegistration.class);
 		PropertyConfigurator.configure(System.getProperty("user.dir") + "/log4j.properties");
 
 	}

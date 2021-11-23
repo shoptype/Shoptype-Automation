@@ -32,6 +32,7 @@ public class BaseClass {
 	public static NetworkOnboard networkOnboard;
 	public static Checkout checkout;
 	public static Notifications notifications;
+	public static CosellerRegistration cosellerRegistration;
 	
 	public static String cosellerAuthToken;
 	public static String networkAuthToken;

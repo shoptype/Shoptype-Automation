@@ -32,7 +32,7 @@ public class VendorOnboard extends BaseClass {
 	@FindBy(xpath = "//span[text()='Vendor']")
 	public WebElement vendorProfile;
 	
-	@FindBy(xpath = "//div[contains(text(), 'Refer')]")
+	@FindBy(xpath = "//li[contains(text(), 'Refer')]")
 	public WebElement refer;
 
 }
