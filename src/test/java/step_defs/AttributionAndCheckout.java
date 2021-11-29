@@ -271,7 +271,7 @@ public class AttributionAndCheckout extends BaseClass {
 
 		}
 		
-		logger.info("Response from Sync Shopify API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Sync Shopify API - " + response.getBody().asPrettyString());
 		logger.info("Response code from Sync Shopify API - " + response.statusCode());
 		
 	}
@@ -330,7 +330,7 @@ public class AttributionAndCheckout extends BaseClass {
 			
 		}
 		
-		logger.info("Response from Create Vendor Attribution API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Create Vendor Attribution API - " + response.getBody().asPrettyString());
 		logger.info("Response code from Create Vendor Attribution API - " + response.statusCode());
 
 	}
@@ -408,7 +408,7 @@ public class AttributionAndCheckout extends BaseClass {
 			
 		}
 		
-		logger.info("Response from Fetch Product API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Fetch Product API - " + response.getBody().asPrettyString());
 		logger.info("Response code from Fetch Product API - " + response.statusCode());
 		
 	}
@@ -524,7 +524,7 @@ public class AttributionAndCheckout extends BaseClass {
 			
 		}
 		
-		logger.info("Response from Get Publish Slug API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Get Publish Slug API - " + response.getBody().asPrettyString());
 		logger.info("Response code from Get Publish Slug API - " + response.statusCode());
 		
 	}
@@ -640,7 +640,7 @@ public class AttributionAndCheckout extends BaseClass {
 		
 		response = APIRequest.createUserEvent(prop.getProperty("backend_beta_url"), payload);
 		logger.info("Response code from Create User Event API - " + response.statusCode());
-		logger.info("Response from Create User Event API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Create User Event API - " + response.getBody().asPrettyString());
 		
 	}
 	
@@ -671,7 +671,7 @@ public class AttributionAndCheckout extends BaseClass {
 		
 		response = APIRequest.createEmptyCart(prop.getProperty("backend_beta_url"), shoptypeApiKey);
 		logger.info("Response code from create empty cart api - " + response.statusCode());
-		logger.info("Response from create empty cart api - " + response.getBody().asPrettyString());
+//		logger.info("Response from create empty cart api - " + response.getBody().asPrettyString());
 		
 	}
 	
@@ -725,7 +725,7 @@ public class AttributionAndCheckout extends BaseClass {
 		}	
 
 		logger.info("Response code from Add Items to Cart API - " + response.statusCode());
-		logger.info("Response from Add Items to Cart API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Add Items to Cart API - " + response.getBody().asPrettyString());
 		
 	}
 	
@@ -752,7 +752,7 @@ public class AttributionAndCheckout extends BaseClass {
 		
 		response = APIRequest.createCheckout(prop.getProperty("backend_beta_url"), shoptypeApiKey, deviceId, cartId, null);
 		logger.info("Response Code from Create Checkout API - " + response.statusCode());
-		logger.info("Response from Create Checkout API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Create Checkout API - " + response.getBody().asPrettyString());
 		
 	}
 	

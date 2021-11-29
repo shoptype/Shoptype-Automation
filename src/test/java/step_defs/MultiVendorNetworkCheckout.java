@@ -26,7 +26,7 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 
 		response = APIRequest.getNetworkDetails(prop.getProperty("backend_beta_url"), networkAuthToken);
 		logger.info("Response code from Get Network Details API - " + response.getStatusCode());
-		logger.info("Response from Get Network Details API - " + response.getBody().asPrettyString());
+//		logger.info("Response from Get Network Details API - " + response.getBody().asPrettyString());
 
 	}
 
@@ -79,7 +79,7 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 
 		response = APIRequest.createCheckout(prop.getProperty("backend_beta_url"), shoptypeApiKey, deviceId, cartId, platformId);
 		logger.info("Response Code from Create Checkout API with Platform ID - " + response.statusCode());
-		logger.info("Response from Create Checkout API with Platform ID - " + response.getBody().asPrettyString());
+//		logger.info("Response from Create Checkout API with Platform ID - " + response.getBody().asPrettyString());
 
 	}
 

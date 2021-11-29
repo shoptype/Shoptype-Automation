@@ -83,11 +83,6 @@ public class APIRequest {
 		request = getSpecswithoutToken(baseUri)
 					.queryParam("vendorId", vendorId.replace("\"", ""));
 		response = request.get(apiresource.getResource());
-		System.out.println(" ===================================================== ");
-		System.out.println(baseUri);
-		System.out.println(apiresource.getResource());
-		System.out.println(vendorId);
-		System.out.println(" ===================================================== ");
 		return response;
 
 	}
