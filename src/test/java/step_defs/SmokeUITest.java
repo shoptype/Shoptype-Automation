@@ -347,7 +347,7 @@ public class SmokeUITest extends BaseClass {
 			
 		}
 		
-		je.executeScript("arguments[0].scrollIntoView();", admin.done.get(1));
+		je.executeScript("arguments[0].scrollIntoView();", admin.done);
 		admin.done.get(1).click();
 		logger.info("Clicked on done");	
 		
