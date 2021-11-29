@@ -61,7 +61,7 @@ public class Utilities {
 			data.put("email", getNewEmailId());
 			data.put("password", "#Kiran1234");
 			data.put("vendor_url", "https://www.quora.com");
-			data.put("selling_category", "Automation");
+			data.put("selling_category", getNewEmailId().split("@")[0]);
 			
 		} else if(userType.equalsIgnoreCase("coseller")) {
 			
@@ -79,8 +79,8 @@ public class Utilities {
 			data.put("email", getNewEmailId());
 			data.put("password", "#Kiran1234");
 			
-			data.put("newtork_name", "Test8779");
-			data.put("newtork_url", "https://www.test089.com/");
+			data.put("newtork_name", getNewEmailId());
+			data.put("newtork_url", "https://www." + getNewEmailId().split("@")[0] + ".com/");
 			
 		}
 		
@@ -223,20 +223,20 @@ public class Utilities {
 
 		boolean isEmailVerified = false;
 		
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		driver.get("https://www.mailinator.com/v4/public/inboxes.jsp?to=" + email);
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		driver.navigate().refresh();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'GO') and contains(@class, 'primary')]"))).click();
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		wait.until(ExpectedConditions.elementToBeClickable(
 				By.xpath("//table[@class='table-striped jambo_table']//td[contains(.,'noreply@awake.me')]"))).click();
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[@id='html_msg_body']")));
 		WebElement messageBody = driver.findElement(By.xpath("//iframe[@id='html_msg_body']"));
 		driver.switchTo().frame(messageBody);
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Verify Email']"))).click();
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		String parentWindow = driver.getWindowHandle();
 		Set<String> tabsOpened = driver.getWindowHandles();
 

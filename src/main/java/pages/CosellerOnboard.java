@@ -19,5 +19,17 @@ public class CosellerOnboard extends BaseClass{
 	
 	@FindBy(xpath = "//span[text()='Coseller']")
 	public WebElement cosellerProfile;
+	
+	@FindBy(xpath = "//li[contains(text(), 'My Profile')]")
+	public WebElement myProfile;
+	
+	@FindBy(css = "input[name='isAdult']")
+	public WebElement isAdult;
+	
+	@FindBy(css = "input[name='isAgeRestricted']")
+	public WebElement isAgeRestricted;
+	
+	@FindBy(xpath = "//button[contains(text(), 'Save')]")
+	public WebElement saveChanges;
 
 }

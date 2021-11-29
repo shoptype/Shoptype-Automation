@@ -27,7 +27,6 @@ public class AttributionAndCheckout extends BaseClass {
 	public static boolean isEmailVerified;
 	public static String vendorName;
 	public static HashMap<String, String> data;
-	public static String vendorUserId;
 	public static String vendorId;
 	public static String productId;
 	public static String productVariantId;
@@ -36,7 +35,6 @@ public class AttributionAndCheckout extends BaseClass {
 	public static String lX;
 	public static String l1;
 	public static String networkComission;
-	public static String vendorAuthToken;
 	public static String publishSlug;
 	public static String orderId;
 	public static String trackerId;
@@ -58,29 +56,29 @@ public class AttributionAndCheckout extends BaseClass {
 			if(userNumber.equalsIgnoreCase("")) {
 				
 				Assert.assertTrue(userSignIn("", "Vendor"));
-				logger.info("Vendor Email Verified");
+				logger.info("Signed in as Vendor");
 				
 			} else if (userNumber.equalsIgnoreCase("first")) {
 				
 				Assert.assertTrue(userSignIn("First", "Vendor"));
-				logger.info("Vendor Email Verified");				
+				logger.info("Signed in first Vendor");				
 				
 			} else if (userNumber.equalsIgnoreCase("second")) {
 
 				Assert.assertTrue(userSignIn("Second", "Vendor"));
-				logger.info("Vendor Email Verified");
+				logger.info("Signed in second Vendor");
 				
 			}
 		
 		} else if (userType.equalsIgnoreCase("coseller")) {
 
 			Assert.assertTrue(userSignIn("", "Coseller"));
-			logger.info("Coseller Email Verified");
+			logger.info("Signed in as Coseller");
 
 		} else if(userType.equalsIgnoreCase("network")) {
 			
 			Assert.assertTrue(userSignIn("", "Network"));
-			logger.info("Network Email Verified");			
+			logger.info("Signed in as Network");			
 			
 		}
 
@@ -108,28 +106,41 @@ public class AttributionAndCheckout extends BaseClass {
 			vendorOnboard.next.click();
 			
 		}
+		
 	}
 
 	@Then("^User should be logged in as \"([^\"]*)\"$")
 	public void user_should_be_logged_in_as(String userType) {
 
 		if (userType.equalsIgnoreCase("vendor")) {
-
+				
 			wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendorProfile));
 			Assert.assertTrue(vendorOnboard.vendorProfile.isDisplayed());
 			logger.info("Landed on vendor dashboard");
+			vendorUserId = Utilities.getItemFromLocalStorage(driver, "_id");
+			logger.info("User ID of vendor - " + vendorUserId);
+			vendorAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
+			logger.info("Vendor Auth Token - " + vendorAuthToken);
 
 		} else if (userType.equalsIgnoreCase("coseller")) {
 
 			wait.until(ExpectedConditions.visibilityOf(cosellerOnboard.cosellerProfile));
 			Assert.assertTrue(cosellerOnboard.cosellerProfile.isDisplayed());
 			logger.info("Landed on coseller dashboard");
+			cosellerUserId = Utilities.getItemFromLocalStorage(driver, "_id");
+			logger.info("User ID of coseller - " + cosellerUserId);
+			cosellerAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
+			logger.info("Coseller Auth Token - " + cosellerAuthToken);
 
 		} else if (userType.equalsIgnoreCase("network")) {
 			
 			wait.until(ExpectedConditions.visibilityOf(networkOnboard.networkProfile));
 			Assert.assertTrue(networkOnboard.networkProfile.isDisplayed());
 			logger.info("Landed on network dashboard");
+			networkUserId = Utilities.getItemFromLocalStorage(driver, "_id");
+			logger.info("User ID of network - " + networkUserId);
+			networkAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
+			logger.info("Network Auth Token - " + networkAuthToken);
 			
 		}
 

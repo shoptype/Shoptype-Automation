@@ -3,11 +3,11 @@ package pages;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.response.Response;
@@ -19,6 +19,7 @@ public class BaseClass {
 	public static WebDriverWait wait;
 	public static Properties prop;
 	public static JavascriptExecutor je;
+	public static Actions actions;
 	public static Properties checkoutProp;
 	public static String scenarioName;
 	public static String payload;
@@ -33,9 +34,12 @@ public class BaseClass {
 	public static Checkout checkout;
 	public static Notifications notifications;
 	public static CosellerRegistration cosellerRegistration;
+	public static Admin admin;
 	
+	public static String vendorAuthToken;
 	public static String cosellerAuthToken;
 	public static String networkAuthToken;
+	public static String vendorUserId;
 	public static String cosellerUserId;
 	public static String networkUserId;
 	public static String platformUrl;
@@ -83,6 +87,7 @@ public class BaseClass {
 		options.addArguments("--allow-insecure-localhost");
 		
 		driver = new ChromeDriver(options);
+		
 		wait = new WebDriverWait(driver, 20);
 		driver.get(url);
 		driver.manage().window().maximize();

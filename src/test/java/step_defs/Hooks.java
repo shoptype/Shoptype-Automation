@@ -5,10 +5,12 @@ import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import pages.Admin;
 import pages.BaseClass;
 import pages.Checkout;
 import pages.CosellerOnboard;
@@ -29,6 +31,7 @@ public class Hooks extends BaseClass{
 		scenarioName = scenario.getName();
 		BaseClass.initChromeBrowser(prop.getProperty("frontend_beta_url").toString());
 		je = (JavascriptExecutor) driver;
+		actions = new Actions(driver);
 		signUp = PageFactory.initElements(driver, SignUp.class);
 		login = PageFactory.initElements(driver, Login.class);
 		vendorOnboard = PageFactory.initElements(driver, VendorOnboard.class);
@@ -37,6 +40,7 @@ public class Hooks extends BaseClass{
 		checkout = PageFactory.initElements(driver, Checkout.class);
 		notifications = PageFactory.initElements(driver, Notifications.class);
 		cosellerRegistration = PageFactory.initElements(driver, CosellerRegistration.class);
+		admin = PageFactory.initElements(driver, Admin.class);
 		PropertyConfigurator.configure(System.getProperty("user.dir") + "/log4j.properties");
 
 	}
