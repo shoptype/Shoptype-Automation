@@ -233,6 +233,8 @@ public class SmokeUITest extends BaseClass {
 	
 	@When("The admin completes the KYC for that network")
 	public void the_admin_completes_the_kyc_for_that_network() throws InterruptedException {
+		
+		int refreshCount = 0;
 	    
 		wait.until(ExpectedConditions.elementToBeClickable(admin.approval));
 		admin.approval.click();
@@ -332,9 +334,18 @@ public class SmokeUITest extends BaseClass {
 		
 		while(true) {
 			
+			if(refreshCount == 10) {
+				
+				logger.info("Refreshed page - " + refreshCount + " times");
+				Assert.assertTrue("Failed to verify the KYC documents", false);
+				break;
+				
+			}
+			
 			if(Utilities.isElementPresent(driver, wait, admin.verified)) {
 				
 				wait.until(ExpectedConditions.visibilityOf(admin.verifiedDocuments));
+				je.executeScript("arguments[0].scrollIntoView();", admin.verifiedDocuments);
 				Assert.assertTrue(admin.verifiedDocuments.isDisplayed());
 				logger.info("KYC documents verified");
 				break;
@@ -342,12 +353,13 @@ public class SmokeUITest extends BaseClass {
 			} else {
 				
 				driver.navigate().refresh();
+				Thread.sleep(3000);				
+				refreshCount++;
 				
 			}
 			
 		}
 		
-		je.executeScript("arguments[0].scrollIntoView();", admin.done);
 		admin.done.get(1).click();
 		logger.info("Clicked on done");	
 		

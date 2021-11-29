@@ -107,13 +107,15 @@ public class AttributionAndCheckout extends BaseClass {
 			
 		}
 		
+		Thread.sleep(5000);
+		
 	}
 
 	@Then("^User should be logged in as \"([^\"]*)\"$")
 	public void user_should_be_logged_in_as(String userType) {
 
 		if (userType.equalsIgnoreCase("vendor")) {
-				
+			
 			wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendorProfile));
 			Assert.assertTrue(vendorOnboard.vendorProfile.isDisplayed());
 			logger.info("Landed on vendor dashboard");

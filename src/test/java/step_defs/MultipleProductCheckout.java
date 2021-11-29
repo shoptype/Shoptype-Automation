@@ -1,5 +1,6 @@
 package step_defs;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -29,36 +30,61 @@ public class MultipleProductCheckout extends BaseClass {
 
 	@When("^All the products are added to cart$")
 	public void all_the_products_are_added_to_cart() throws Throwable {
-
-		driver.get(urls.get(0));
-		wait.until(ExpectedConditions.visibilityOf(checkout.buyNow));
-		je.executeScript("arguments[0].scrollIntoView(true);", checkout.buyNow);
-		checkout.buyNow.click();
-		logger.info("Clicked on buy now for first product");
-		wait.until(ExpectedConditions.visibilityOf(checkout.checkout));
-
-		for (int i = 1; i < urls.size(); i++) {
-
+		
+		ArrayList<String> productInStock = new ArrayList<>();
+		
+		for(int i=0; i<urls.size(); i++) {
+			
 			driver.get(urls.get(i));
-			logger.info("Opened " + (i + 1) + " url");
-			logger.info("Url - " + urls.get(i));
 			wait.until(ExpectedConditions.visibilityOf(checkout.buyNow));
-
+			je.executeScript("arguments[0].scrollIntoView();", checkout.buyNow);
+			
 			if (checkout.buyNow.isEnabled()) {
-
-				je.executeScript("arguments[0].scrollIntoView(true);", checkout.buyNow);
-				Thread.sleep(2000);
-				checkout.buyNow.click();
-				logger.info("Clicked on buy now for " + (i + 1) + " url");
-				wait.until(ExpectedConditions.visibilityOf(checkout.checkout));
-
+				
+				productInStock.add(urls.get(i));
+				
 			} else {
-
-				logger.info("Product Out of Stock !!!!");
-
+				
+				logger.info("Product of stock !!!");
+				
 			}
+			
+		}
+		
+		for(int i=0; i<productInStock.size(); i++) {
+			
+			driver.get(urls.get(i));
+			wait.until(ExpectedConditions.visibilityOf(checkout.buyNow));
+			je.executeScript("arguments[0].scrollIntoView();", checkout.buyNow);
+			checkout.buyNow.click();
+			Thread.sleep(2000);
+			logger.info("Clicked on buy now for " + ( i+1 ) + " product");
+			wait.until(ExpectedConditions.visibilityOf(checkout.checkout));
 
 		}
+		
+//		for (int i = 1; i < urls.size(); i++) {
+//
+//			driver.get(urls.get(i));
+//			logger.info("Opened " + (i + 1) + " url");
+//			logger.info("Url - " + urls.get(i));
+//			wait.until(ExpectedConditions.visibilityOf(checkout.buyNow));
+//
+//			if (checkout.buyNow.isEnabled()) {
+//
+//				je.executeScript("arguments[0].scrollIntoView(true);", checkout.buyNow);
+//				Thread.sleep(2000);
+//				checkout.buyNow.click();
+//				logger.info("Clicked on buy now for " + (i + 1) + " url");
+//				wait.until(ExpectedConditions.visibilityOf(checkout.checkout));
+//
+//			} else {
+//
+//				logger.info("Product Out of Stock !!!!");
+//
+//			}
+//
+//		}
 
 		logger.info("Added all elements to cart");
 		wait.until(ExpectedConditions.elementToBeClickable(checkout.checkout));
@@ -144,7 +170,7 @@ public class MultipleProductCheckout extends BaseClass {
 			
 			try {
 				
-				if(refreshCount == 5) {
+				if(refreshCount == 10) {
 					
 					Assert.assertTrue("No Order ID Found", false);
 					logger.info("No Order ID Found");
@@ -163,6 +189,7 @@ public class MultipleProductCheckout extends BaseClass {
 				
 				System.out.println(e.getMessage());
 				driver.navigate().refresh();
+				Thread.sleep(3000);
 				refreshCount++;
 				logger.info("Trying to fetch order id after " + refreshCount + " refresh");
 				
