@@ -18,6 +18,9 @@ public class VendorOnboard extends BaseClass {
 
 	@FindBy(xpath = "//div[contains(text(), 'vendor')]")
 	public WebElement vendor;
+	
+	@FindBy(xpath = "//span[contains(text(), 'Vendor')]")
+	public WebElement vendorProfile;
 
 	@FindBy(xpath = "//button[text()='Next']")
 	public WebElement next;
@@ -33,9 +36,6 @@ public class VendorOnboard extends BaseClass {
 
 	@FindBy(css = "input[name='websiteUrl']")
 	public WebElement websiteUrl;
-
-	@FindBy(xpath = "//span[text()='Vendor']")
-	public WebElement vendorProfile;
 	
 	@FindBy(xpath = "//li[contains(text(), 'Refer')]")
 	public WebElement refer;

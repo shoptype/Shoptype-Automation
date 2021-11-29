@@ -334,7 +334,6 @@ public class SmokeUITest extends BaseClass {
 			
 			if(Utilities.isElementPresent(driver, wait, admin.verified)) {
 				
-				je.executeScript("arguments[0].scrollIntoView();", admin.done.get(1));
 				wait.until(ExpectedConditions.visibilityOf(admin.verifiedDocuments));
 				Assert.assertTrue(admin.verifiedDocuments.isDisplayed());
 				logger.info("KYC documents verified");
@@ -348,6 +347,7 @@ public class SmokeUITest extends BaseClass {
 			
 		}
 		
+		je.executeScript("arguments[0].scrollIntoView();", admin.done.get(1));
 		admin.done.get(1).click();
 		logger.info("Clicked on done");	
 		
@@ -386,9 +386,10 @@ public class SmokeUITest extends BaseClass {
 	}
 	
 	@When("The user imports product from shopify")
-	public void the_user_imports_product_from_shopify() {
+	public void the_user_imports_product_from_shopify() throws InterruptedException {
 	    
-		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendor));
+		Thread.sleep(3000);
+		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.products));
 		vendorOnboard.products.click();
 		logger.info("Clicked on products");
 		
