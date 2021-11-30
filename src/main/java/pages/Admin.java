@@ -99,8 +99,11 @@ public class Admin {
 	@FindBy(xpath = verified)
 	public WebElement verifiedDocuments;
 	
-	@FindBy(xpath = "//span[contains(text(), 'Submit')]/parent::span/parent::div")
+	@FindBy(xpath = "//span[contains(text(), 'Done')]/parent::span/parent::div")
 	public List<WebElement> done;
+	
+	@FindBy(xpath = "//span[contains(text(), 'Submit')]/parent::span/parent::div")
+	public List<WebElement> submit;
 	
 	@FindBy(xpath = "//li[contains(text(), 'Logout')]")
 	public WebElement logout;

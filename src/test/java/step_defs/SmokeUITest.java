@@ -360,8 +360,17 @@ public class SmokeUITest extends BaseClass {
 			
 		}
 		
-		admin.done.get(1).click();
-		logger.info("Clicked on done");	
+		try {
+			
+			admin.done.get(1).click();
+			logger.info("Clicked on done");
+			
+		} catch (Exception e) {
+			
+			admin.submit.get(1).click();
+			logger.info("Clicked on submit");
+			
+		}	
 		
 		wait.until(ExpectedConditions.visibilityOf(admin.network));
 		networkOnboard.networkProfile.click();
