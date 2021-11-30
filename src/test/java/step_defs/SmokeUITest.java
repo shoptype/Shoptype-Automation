@@ -591,7 +591,13 @@ public class SmokeUITest extends BaseClass {
 		logger.info("Vendor successfully removed from network");
 		
 	}
-		
+	
+	
+	
+	
+	
+	// ADD ALL SCENARIOS BEFORE THIS
+	
 	@Given("All the scenarios are executed")
 	public void all_the_scenarios_are_executed() {
 	    
