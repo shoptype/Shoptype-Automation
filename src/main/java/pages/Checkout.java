@@ -69,4 +69,22 @@ public class Checkout {
 	@FindBy(xpath = "//div[contains(text(), 'Order')]")
 	public List<WebElement> orderId;
 	
+	@FindBy(css = "form.authnet-payment-form")
+	public WebElement authorizePyamentModel;
+	
+	@FindBy(css = "#cardNumber")
+	public WebElement authorizeCardNumber;
+	
+	@FindBy(css = "#expMonth")
+	public WebElement authorizeCardMonth;
+	
+	@FindBy(css = "#expYear")
+	public WebElement authorizeCardYear;
+	
+	@FindBy(css = "#cardCode")
+	public WebElement authorizeCVV;
+	
+	@FindBy(css = "button.authorize-payement-btn")
+	public WebElement authorizePayNow;
+	
 }

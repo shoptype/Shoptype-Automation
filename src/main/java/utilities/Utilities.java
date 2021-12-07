@@ -156,7 +156,15 @@ public class Utilities {
 
 		for (int i = 1; i <= numberOfRows; i++) {
 			
-			productUrls.add(sheet.getRow(i).getCell(0).getStringCellValue());
+			if(!sheet.getRow(i).getCell(0).getStringCellValue().isBlank()) {
+				
+				productUrls.add(sheet.getRow(i).getCell(0).getStringCellValue());
+				
+			} else {
+				
+				System.out.println("Empty / null cell");
+				
+			}
 
 		}
 		
