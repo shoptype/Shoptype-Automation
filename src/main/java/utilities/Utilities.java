@@ -156,7 +156,7 @@ public class Utilities {
 
 		for (int i = 1; i <= numberOfRows; i++) {
 			
-			if(!sheet.getRow(i).getCell(0).getStringCellValue().isBlank()) {
+			if(!sheet.getRow(i).getCell(0).getStringCellValue().isEmpty()) {
 				
 				productUrls.add(sheet.getRow(i).getCell(0).getStringCellValue());
 				
