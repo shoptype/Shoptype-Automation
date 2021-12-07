@@ -211,7 +211,7 @@ public class Utilities {
 		} else if(emailType.contains("referral")) {
 			
 			isEmailVerified = Utilities.isElementPresent(driver, wait, 
-					"//table[@class='table-striped jambo_table']//td[contains(text(), 'Join Shoptype')]");
+					"//table[@class='table-striped jambo_table']//td[contains(text(), 'Referral')]");
 			
 		}
 
