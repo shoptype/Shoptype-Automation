@@ -6,7 +6,7 @@ Feature: Smoke UI Scenario
     When User enters all the required details to signup as "Network"
     And Clicks on "Network"
     And Enters the onboarding details for "Network"
-    Then User should be logged in as "Network"
+    Then User should be signed in as "Network"
 
 	@user_creation
   Scenario: Vendor Sign Up
@@ -14,14 +14,14 @@ Feature: Smoke UI Scenario
     When User enters all the required details to signup as "Vendor"
     And Clicks on "Vendor"
     And Enters the onboarding details for "Vendor"
-    Then User should be logged in as "Vendor"
+    Then User should be signed in as "Vendor"
 
 	@user_creation
   Scenario: Coseller Sign Up
     Given User opens the website and signs in as existing user
     When User enters all the required details to signup as "Coseller"
     And Clicks on "Coseller"
-    Then User should be logged in as "Coseller"
+    Then User should be signed in as "Coseller"
 
 	@user_creation
 	Scenario: Add payment and payouts for network

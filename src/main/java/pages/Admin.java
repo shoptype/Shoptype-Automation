@@ -83,7 +83,8 @@ public class Admin {
 	@FindBy(xpath = "//span[contains(text(), 'test account')]/parent::span/parent::div/parent::div/parent::button")
 	public WebElement testAccount;
 	
-	@FindBy(xpath = "//span[contains(text(), 'Update')]/parent::span/parent::div/parent::div/parent::button")
+	public final String updateLocator = "//span[contains(text(), 'Update')]/parent::span/parent::div/parent::div/parent::button"; 
+	@FindBy(xpath = updateLocator)
 	public WebElement update;
 	
 	@FindBy(css = "#subregion")

@@ -101,6 +101,7 @@ public class AttributionAndCheckout extends BaseClass {
 
 		} else if (userType.equalsIgnoreCase("network")) {
 			
+			Thread.sleep(5000);
 			wait.until(ExpectedConditions.visibilityOf(networkOnboard.network)).click();
 			logger.info("Selected Network");
 			vendorOnboard.next.click();
@@ -145,7 +146,7 @@ public class AttributionAndCheckout extends BaseClass {
 			logger.info("Network Auth Token - " + networkAuthToken);
 			
 		}
-
+		
 	}
 	
 	@Then("^Vendor id and user id should be saved for \"([^\"]*)\" vendor$")

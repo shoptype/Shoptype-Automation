@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import api_requests.APIRequest;
 import io.cucumber.java.en.Given;
@@ -25,6 +26,16 @@ public class SmokeUITest extends BaseClass {
 	public static Select countryDropDown;
 	public static String networkName;
 	public static String vendorName;
+	public static WebDriverWait waitForUpdate;
+	
+	public static String automationNetworkUserId;
+	public static String automationNetworkToken;
+	
+	public static String automationVendorUserId;
+	public static String automationVendorToken;
+	
+	public static String automationCosellerUserId;
+	public static String automationCosellerToken;
 	
 	@When("User enters all the required details to signup as {string}")
 	public void signup_new_user(String userType) throws IOException, InterruptedException {
@@ -99,6 +110,7 @@ public class SmokeUITest extends BaseClass {
 		if(userType.equalsIgnoreCase("network")) {
 			
 			networkName = networkData.get("newtork_name").split("@")[0];
+			wait.until(ExpectedConditions.visibilityOf(networkOnboard.networkName));
 			networkOnboard.networkName.sendKeys(networkName);
 			logger.info("Entered network name - " + networkData.get("newtork_name"));
 			
@@ -109,6 +121,7 @@ public class SmokeUITest extends BaseClass {
 		} else if(userType.equalsIgnoreCase("vendor")) {
 			
 			vendorName = Utilities.getNewEmailId().split("@")[0];
+			wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendorName));
 			vendorOnboard.vendorName.sendKeys(vendorName);
 			logger.info("Entered vendor name - " + Utilities.getNewEmailId().split("@")[0]);
 			
@@ -131,6 +144,43 @@ public class SmokeUITest extends BaseClass {
 		
 	}
 	
+	@Then("^User should be signed in as \"([^\"]*)\"$")
+	public void user_should_be_logged_in_as(String userType) {
+
+		if (userType.equalsIgnoreCase("vendor")) {
+			
+			wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendorProfile));
+			Assert.assertTrue(vendorOnboard.vendorProfile.isDisplayed());
+			logger.info("Landed on vendor dashboard");
+			automationVendorUserId = Utilities.getItemFromLocalStorage(driver, "_id");
+			logger.info("User ID of vendor - " + automationVendorUserId);
+			automationVendorToken = Utilities.getItemFromLocalStorage(driver, "token");
+			logger.info("Vendor Auth Token - " + automationVendorToken);
+
+		} else if (userType.equalsIgnoreCase("coseller")) {
+
+			wait.until(ExpectedConditions.visibilityOf(cosellerOnboard.cosellerProfile));
+			Assert.assertTrue(cosellerOnboard.cosellerProfile.isDisplayed());
+			logger.info("Landed on coseller dashboard");
+			automationCosellerUserId = Utilities.getItemFromLocalStorage(driver, "_id");
+			logger.info("User ID of coseller - " + automationCosellerUserId);
+			automationCosellerToken = Utilities.getItemFromLocalStorage(driver, "token");
+			logger.info("Coseller Auth Token - " + automationCosellerToken);
+
+		} else if (userType.equalsIgnoreCase("network")) {
+			
+			wait.until(ExpectedConditions.visibilityOf(networkOnboard.networkProfile));
+			Assert.assertTrue(networkOnboard.networkProfile.isDisplayed());
+			logger.info("Landed on network dashboard");
+			automationNetworkUserId = Utilities.getItemFromLocalStorage(driver, "_id");
+			logger.info("User ID of network - " + automationNetworkUserId);
+			automationNetworkToken = Utilities.getItemFromLocalStorage(driver, "token");
+			logger.info("Network Auth Token - " + automationNetworkToken);
+			
+		}
+		
+	}
+	
 	@Given("User login using the {string} credentials")
 	public void user_login_using_the_credentials(String userType) {
 		
@@ -146,6 +196,7 @@ public class SmokeUITest extends BaseClass {
 			
 		} else if(userType.contains("admin")) {
 			
+			wait.until(ExpectedConditions.visibilityOf(login.email));
 			login.email.sendKeys(prop.get("shoptype_admin_user_name").toString());
 			logger.info("Entered email - " + prop.get("shoptype_admin_user_name").toString());
 			
@@ -235,6 +286,7 @@ public class SmokeUITest extends BaseClass {
 	public void the_admin_completes_the_kyc_for_that_network() throws InterruptedException {
 		
 		int refreshCount = 0;
+		waitForUpdate = new WebDriverWait(driver, 70);
 	    
 		wait.until(ExpectedConditions.elementToBeClickable(admin.approval));
 		admin.approval.click();
@@ -326,15 +378,15 @@ public class SmokeUITest extends BaseClass {
 		wait.until(ExpectedConditions.visibilityOf(admin.testAccount)).click();
 		logger.info("Clicked on use test account");
 		
-		wait.until(ExpectedConditions.visibilityOf(admin.update)).click();
+		waitForUpdate.until(ExpectedConditions.visibilityOf(admin.update)).click();
 		logger.info("Clicked on update");
 		
 		wait.until(ExpectedConditions.visibilityOf(admin.testDocument)).click();
 		logger.info("Clicked on use test document");
-		
+				
 		while(true) {
 			
-			if(refreshCount == 10) {
+			if(refreshCount == refreshCountThreshold) {
 				
 				logger.info("Refreshed page - " + refreshCount + " times");
 				Assert.assertTrue("Failed to verify the KYC documents", false);
@@ -376,7 +428,9 @@ public class SmokeUITest extends BaseClass {
 		networkOnboard.networkProfile.click();
 		logger.info("Clicked on admin profile");
 		
-		wait.until(ExpectedConditions.visibilityOf(admin.logout)).click();
+		
+		wait.until(ExpectedConditions.visibilityOf(admin.logout));
+		admin.logout.click();
 		logger.info("Clicked on logout");
 		
 		logger.info("Logging to network account to verify KYC");
@@ -442,19 +496,22 @@ public class SmokeUITest extends BaseClass {
 	}
 	
 	@Then("The user should be able to see the products imported from vendor account")
-	public void the_user_should_be_able_to_see_the_products_imported_from_vendor_account() {
+	public void the_user_should_be_able_to_see_the_products_imported_from_vendor_account() throws InterruptedException {
 	    
 		int refreshCount = 0;
 		
 		while(true) {
 			
-			if(refreshCount == 10) {
+			if(refreshCount == refreshCountThreshold) {
 				
-				Assert.assertTrue("Could not verify the KYC", false);
+				Assert.assertTrue("Could not import the products", false);
 				
 			}
 			
 			if(Utilities.isElementPresent(driver, wait, vendorOnboard.addProduct)) {
+				
+				wait.until(ExpectedConditions.visibilityOf(vendorOnboard.addNewProduct));
+				je.executeScript("arguments[0].scrollIntoView();", vendorOnboard.view.get(0));
 				
 				Assert.assertTrue(vendorOnboard.view.size() == 10);
 				Assert.assertTrue(vendorOnboard.publish.size() == 10);
@@ -601,41 +658,6 @@ public class SmokeUITest extends BaseClass {
 		
 	}
 	
-	
-	
-	
-	
-	// ADD ALL SCENARIOS BEFORE THIS
-	
-	@Given("All the scenarios are executed")
-	public void all_the_scenarios_are_executed() {
-	    
-		logger.info(" ========== " + scenarioName + " ========== ");
-		
-	}
-	
-	@Then("Delete {string} account")
-	public void delete_account(String userType) {
-	    
-		if(userType.equalsIgnoreCase("network")) {
-			
-			APIRequest.deleteUser(prop.getProperty("backend_beta_url"), networkUserId, networkAuthToken);
-			logger.info("Deleted user id - " + networkUserId);
-			
-		} else if(userType.equalsIgnoreCase("vendor")) {
-			
-			APIRequest.deleteUser(prop.getProperty("backend_beta_url"), vendorUserId, vendorAuthToken);
-			logger.info("Deleted user id - " + vendorUserId);
-			
-		} else if(userType.equalsIgnoreCase("coseller")) {
-			
-			APIRequest.deleteUser(prop.getProperty("backend_beta_url"), cosellerUserId, cosellerAuthToken);
-			logger.info("Deleted user id - " + cosellerUserId);
-			
-		}
-		
-	}
-	
 	@When("The coseller searches for the vendor product")
 	public void the_coseller_searches_for_the_vendor_product() throws InterruptedException {
 	    
@@ -679,11 +701,44 @@ public class SmokeUITest extends BaseClass {
 		logger.info("Successfull verified proudct list from coseller account for that vendor");
 		
 	}
+
 	
 	
 	
 	
-	// ADD ALL THE STEP DEFINITION BEFORE THIS
+	
+	
+	
+	// ADD ALL SCENARIOS BEFORE THIS
+	
+	@Given("All the scenarios are executed")
+	public void all_the_scenarios_are_executed() {
+	    
+		logger.info(" ========== " + scenarioName + " ========== ");
+		
+	}
+	
+	@Then("Delete {string} account")
+	public void delete_account(String userType) {
+	    
+		if(userType.equalsIgnoreCase("network")) {
+			
+			APIRequest.deleteUser(prop.getProperty("backend_beta_url"), automationNetworkUserId, automationNetworkToken);
+			logger.info("Deleted user id - " + automationNetworkUserId);
+			
+		} else if(userType.equalsIgnoreCase("vendor")) {
+			
+			APIRequest.deleteUser(prop.getProperty("backend_beta_url"), automationVendorUserId, automationVendorToken);
+			logger.info("Deleted user id - " + automationVendorUserId);
+			
+		} else if(userType.equalsIgnoreCase("coseller")) {
+			
+			APIRequest.deleteUser(prop.getProperty("backend_beta_url"), automationCosellerUserId, automationCosellerToken);
+			logger.info("Deleted user id - " + automationCosellerUserId);
+			
+		}
+		
+	}
 	
 	public static void enterPaymentPayoutDetails(String type) throws InterruptedException {
 		

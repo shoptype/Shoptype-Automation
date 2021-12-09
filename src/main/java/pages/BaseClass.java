@@ -74,6 +74,8 @@ public class BaseClass {
 	public static String autoRegisteredEmail;
 	public static String vendorEmail;
 	public static String cosellerEmail;
+	
+	public static int refreshCountThreshold = 15;
 
 	public static void initChromeBrowser(String url) throws IOException {
 		

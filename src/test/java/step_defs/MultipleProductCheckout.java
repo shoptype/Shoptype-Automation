@@ -168,7 +168,7 @@ public class MultipleProductCheckout extends BaseClass {
 			
 			try {
 				
-				if(refreshCount == 10) {
+				if(refreshCount == refreshCountThreshold) {
 					
 					Assert.assertTrue("No Order ID Found", false);
 					logger.info("No Order ID Found");
