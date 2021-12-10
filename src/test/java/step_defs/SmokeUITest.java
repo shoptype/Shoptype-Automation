@@ -746,6 +746,7 @@ public class SmokeUITest extends BaseClass {
 		networkOnboard.currency.click();
 		logger.info("Clicked on currency");
 		
+		wait.until(ExpectedConditions.elementToBeClickable(networkOnboard.usd));
 		networkOnboard.usd.click();
 		logger.info("Clicked on usd");
 		
