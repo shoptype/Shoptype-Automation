@@ -163,9 +163,13 @@ public class Notifications extends BaseClass{
 		login.signInUser(wait, signUpData);
 		logger.info("User logged in");
 		
+		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendor));
 		vendorOnboard.vendor.click();
+		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.next));
 		vendorOnboard.next.click();
+		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendorProfile));
 		vendorOnboard.vendorProfile.click();
+		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.refer));
 		vendorOnboard.refer.click();
 		logger.info("Clicked on profile");
 		
