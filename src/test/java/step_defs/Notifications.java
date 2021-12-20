@@ -155,7 +155,7 @@ public class Notifications extends BaseClass{
 	}
 	
 	@Given("A user wants to refer a person to shoptype")
-	public void refer_a_user() {
+	public void refer_a_user() throws InterruptedException {
 		
 		logger.info(" =========== " + scenarioName + " =========== ");
 		signUpData.replace("email", vendorEmail);
@@ -167,12 +167,17 @@ public class Notifications extends BaseClass{
 		vendorOnboard.vendor.click();
 		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.next));
 		vendorOnboard.next.click();
+		
+		Thread.sleep(3000);
 		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendorProfile));
 		vendorOnboard.vendorProfile.click();
+		
+		Thread.sleep(3000);
 		wait.until(ExpectedConditions.visibilityOf(vendorOnboard.refer));
 		vendorOnboard.refer.click();
 		logger.info("Clicked on profile");
 		
+		Thread.sleep(3000);
 		wait.until(ExpectedConditions.elementToBeClickable(notifications.toEmail));
 		cosellerEmail = Utilities.getNewEmailId();
 		notifications.toEmail.sendKeys(cosellerEmail);
