@@ -55,7 +55,9 @@ public class MultipleProductCheckout extends BaseClass {
 			
 			driver.get(urls.get(i));
 			wait.until(ExpectedConditions.visibilityOf(checkout.buyNow));
+			Thread.sleep(2000);
 			je.executeScript("arguments[0].scrollIntoView();", checkout.buyNow);
+			Thread.sleep(2000);
 			checkout.buyNow.click();
 			Thread.sleep(2000);
 			logger.info("Clicked on buy now for " + ( i+1 ) + " product");
