@@ -1,56 +1,23 @@
 Feature: Multi Vendor Checkout on Shoptype
 
-	@user_creation
-  Scenario: First Vendor Sign In
-    Given User opens the website and signs in as existing user
-    When User enters all the required details to signin as "First" "Vendor"
-    And Clicks on "Vendor"
-    Then User should be logged in as "Vendor"
-    And Vendor id and user id should be saved for "First" vendor
-    And Authorization token of "First" "Vendor" should be saved
+	@api 
+	Scenario: Vendor One Sign In 
+		Given User logs in as "Vendor One"
+		When User selects "Vendor One" as a profile
+		Then user should be logged in as "Vendor One"
 	
-	@user_creation
-  Scenario: Second Vendor Sign In
-		Given User opens the website and signs in as existing user
-    When User enters all the required details to signin as "Second" "Vendor" 
-    And Clicks on "Vendor"
-    Then User should be logged in as "Vendor"
-    And Vendor id and user id should be saved for "Second" vendor
-    And Authorization token of "Second" "Vendor" should be saved
-
-	@user_creation
-  Scenario: Coseller Sign In
-    Given User opens the website and signs in as existing user
-    When User enters all the required details to signin as "" "Coseller" 
-    And Clicks on "Coseller"
-    Then User should be logged in as "Coseller"
-    And "Coseller" user id should be saved
-    And Authorization token of "" "Coseller" should be saved 
- 
-  @api
-  Scenario: Sync Shopify Products for First Vendor
-  	Given Authorization token of "First" vendor and the Shopify payload are obtained
-  	When Shopify Sync Product API is hit for "First" vendor
-  	Then Products should added to catalog and the store should be synced  
+	@api 
+	Scenario: Vendor Two Sign In 
+		Given User logs in as "Vendor Two"
+		When User selects "Vendor Two" as a profile 
+		Then user should be logged in as "Vendor Two"
+	
+	@api 
+	Scenario: Coseller Sign In 
+		Given User logs in as "Coseller"
+		When User selects "Coseller" as a profile 
+		Then user should be logged in as "Coseller"
   
-  @api
-  Scenario: Sync Shopify Products for Second Vendor
-  	Given Authorization token of "Second" vendor and the Shopify payload are obtained
-  	When Shopify Sync Product API is hit for "Second" vendor
-  	Then Products should added to catalog and the store should be synced  
-  
-  @api	
-  Scenario: Setting First Vendor Attribution for Intro and Close
-  	Given Authorization token of "First" vendor and attribution payload for setting intro and close is obtained
-  	When Create Vendor Attribution API is hit for "First" vendor
-  	Then Network commision should be set with Intro and Close Level for "First" vendor  
-  
-  @api	
-  Scenario: Setting First Vendor Attribution for Intro and Close
-  	Given Authorization token of "Second" vendor and attribution payload for setting intro and close is obtained
-  	When Create Vendor Attribution API is hit for "Second" vendor
-  	Then Network commision should be set with Intro and Close Level for "Second" vendor  
-
   @api
   Scenario: Get product id to publish from first vendor
   	Given Authorization token of coseller, "First" vendor id and currency is obtained
@@ -123,9 +90,8 @@ Feature: Multi Vendor Checkout on Shoptype
 		When Create Checkout API is hit
 		Then Checkout Id and Redirect Uri should be obtained
 
-	@user_creation
+	@ui
 	Scenario: Checkout on shoptype
 		Given Checkout Url is obtained
 		When A checkout happens
 		Then The order should be placed
-

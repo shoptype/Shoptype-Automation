@@ -1,41 +1,29 @@
 Feature: Multi Vendor Checkout on Platform
-	
-	@user_creation
-  Scenario: Network Sign In
-    Given User opens the website and signs in as existing user
-    When User enters all the required details to signin as "" "Network"
-    And Clicks on "Network"
-    Then User should be logged in as "Network"
-    And "Network" user id should be saved
-    And Authorization token of "" "Network" should be saved 	
-	
-	@user_creation
-  Scenario: First Vendor Sign In
-    Given User opens the website and signs in as existing user
-    When User enters all the required details to signin as "First" "Vendor"
-    And Clicks on "Vendor"
-    Then User should be logged in as "Vendor"
-    And Vendor id and user id should be saved for "First" vendor
-    And Authorization token of "First" "Vendor" should be saved
-	
-	@user_creation
-  Scenario: Second Vendor Sign In
-		Given User opens the website and signs in as existing user
-    When User enters all the required details to signin as "Second" "Vendor" 
-    And Clicks on "Vendor"
-    Then User should be logged in as "Vendor"
-    And Vendor id and user id should be saved for "Second" vendor
-    And Authorization token of "Second" "Vendor" should be saved
+		
+	@api 
+	Scenario: Network Sign In 
+		Given User logs in as "Network"
+		When User selects "Network" as a profile 
+		Then user should be logged in as "Network"
 
-	@user_creation
-  Scenario: Coseller Sign In
-    Given User opens the website and signs in as existing user
-    When User enters all the required details to signin as "" "Coseller" 
-    And Clicks on "Coseller"
-    Then User should be logged in as "Coseller"
-    And "Coseller" user id should be saved
-    And Authorization token of "" "Coseller" should be saved
-
+	@api 
+	Scenario: Vendor One Sign In 
+		Given User logs in as "Vendor One"
+		When User selects "Vendor One" as a profile
+		Then user should be logged in as "Vendor One"
+	
+	@api 
+	Scenario: Vendor Two Sign In 
+		Given User logs in as "Vendor Two"
+		When User selects "Vendor Two" as a profile 
+		Then user should be logged in as "Vendor Two"
+	
+	@api 
+	Scenario: Coseller Sign In 
+		Given User logs in as "Coseller"
+		When User selects "Coseller" as a profile 
+		Then user should be logged in as "Coseller"
+	
 	Scenario: Get Platform Id and PLatform Url 
 		Given Network auth token is obtained 
 		When Get Network Details API is hit 
@@ -113,7 +101,7 @@ Feature: Multi Vendor Checkout on Platform
 		When Create checkout api is hit with platform id
 		Then Checkout Id and Redirect Uri should be obtained
 
-	@user_creation
+	@ui
 	Scenario: Checkout on platform
 		Given Checkout Url is obtained
 		When A checkout happens

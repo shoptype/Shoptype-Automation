@@ -4,72 +4,129 @@ import utilities.Utilities;
 
 public class Payload {
 	
-	public static String setAttribution_Intro_Close(String vendorId) {
+	public static String registerUser(String email, String password, String name, String phoneNumber, String platformId) {
 		
 		return "{\r\n"
-				+ "  \"attributionConfig\": {\r\n"
-				+ "    \"configs\": {\r\n"
-				+ "      \"networkCommission\": {\r\n"
-				+ "        \"percentage\": 30\r\n"
-				+ "      },\r\n"
-				+ "      \"lIntro\": {\r\n"
-				+ "        \"percentage\": 50,\r\n"
-				+ "        \"timeLimit\": null,\r\n"
-				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
-				+ "      },\r\n"
-				+ "      \"lX\": {\r\n"
-				+ "        \"percentage\": 50,\r\n"
-				+ "        \"timeLimit\": null,\r\n"
-				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
-				+ "      }\r\n"
-				+ "    }\r\n"
-				+ "  },\r\n"
-				+ "  \"vendorId\": \"" + vendorId + "\"\r\n"
+				+ "  \"name\": \"" + name + "\",\r\n"
+				+ "  \"phone\": \"" + phoneNumber + "\",\r\n"
+				+ "  \"email\": \"" + email + "\",\r\n"
+				+ "  \"password\": \"" + password + "\"\r\n"
 				+ "}";
 		
 	}
 	
-	public static String setAttribution_Intro_L1_Close(String vendorId) {
+	public static String loginUser(String email, String password) {
 		
 		return "{\r\n"
+				+ "  \"email\": \"" + email + "\",\r\n"
+				+ "  \"password\": \"" + password + "\"\r\n"
+				+ "}";
+		
+	}
+	
+	public static String authenticateUser(String userType) {
+		
+		return "{\r\n"
+				+ "  \"userType\": \"" + userType + "\"\r\n"
+				+ "}";
+		
+	}
+	
+	public static String vendorDetails(String vendorName, String vendorUrl) {
+		
+		return "{\r\n"
+				+ "  \"name\": \"" + vendorName + "\",\r\n"
+				+ "  \"productCategories\": [\r\n"
+				+ "    \"Apparel\"\r\n"
+				+ "  ],\r\n"
+				+ "  \"url\": \"" + vendorUrl + "\",\r\n"
+				+ "  \"timestamp\": " + Utilities.getUnixEpochTime() + "\r\n"
+				+ "}";
+		
+	}
+	
+	public static String networkDetails(String networkName, String networkUrl) {
+		
+		return "{\r\n"
+				+ "  \"name\": \"" + networkName + "\",\r\n"
+				+ "  \"urls\": [\r\n"
+				+ "    \"" + networkUrl + "\"\r\n"
+				+ "  ]\r\n"
+				+ "}";
+		
+	}
+	
+	public static String acceptNetworkInviteFromVendor(String networkId) {
+		
+		return "{\r\n"
+				+ "    \"network_id\": \"" + networkId + "\"\r\n"
+				+ "}";
+		
+	}
+	
+	public static String sendInviteToVendorFromNetwork(String vendorId) {
+		
+		return "{\r\n"
+				+ "    \"vendor_id\": \"" + vendorId + "\"\r\n"
+				+ "}";
+		
+	}
+		
+	public static String updateAttributionDetails(String vendorId, String attributionId) {
+		
+		return "{\r\n"
+				+ "  \"id\": \"" + attributionId + "\",\r\n"
+				+ "  \"vendorId\": \"" + vendorId + "\",\r\n"
 				+ "  \"attributionConfig\": {\r\n"
 				+ "    \"configs\": {\r\n"
-				+ "      \"networkCommission\": {\r\n"
-				+ "        \"percentage\": 40\r\n"
+				+ "      \"l1\": {\r\n"
+				+ "        \"percentage\": 20,\r\n"
+				+ "        \"timeLimit\": 259200000000000,\r\n"
+				+ "        \"timeLimitUnit\": \"hours\"\r\n"
+				+ "      },\r\n"
+				+ "      \"l2\": {\r\n"
+				+ "        \"percentage\": 20,\r\n"
+				+ "        \"timeLimit\": 129600000000000,\r\n"
+				+ "        \"timeLimitUnit\": \"hours\"\r\n"
 				+ "      },\r\n"
 				+ "      \"lIntro\": {\r\n"
-				+ "        \"percentage\": 50,\r\n"
-				+ "        \"timeLimit\": null,\r\n"
-				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
-				+ "      },\r\n"
-				+ "      \"l1\": {\r\n"
 				+ "        \"percentage\": 20,\r\n"
 				+ "        \"timeLimit\": null,\r\n"
 				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
 				+ "      },\r\n"
 				+ "      \"lX\": {\r\n"
+				+ "        \"percentage\": 40,\r\n"
+				+ "        \"timeLimit\": 3600000000000,\r\n"
+				+ "        \"timeLimitUnit\": \"hours\"\r\n"
+				+ "      },\r\n"
+				+ "      \"networkCommission\": {\r\n"
 				+ "        \"percentage\": 30,\r\n"
 				+ "        \"timeLimit\": null,\r\n"
-				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
+				+ "        \"timeLimitUnit\": \"\"\r\n"
 				+ "      }\r\n"
-				+ "    }\r\n"
-				+ "  },\r\n"
-				+ "  \"vendorId\": \"" + vendorId + "\"\r\n"
+				+ "    },\r\n"
+				+ "    \"adjustmentConfigs\": null\r\n"
+				+ "  }\r\n"
 				+ "}";
 		
 	}
 	
-	public static String syncShopifyProducts() {
-		return "{\n"
-				+ "  \"storeName\": \"shop-types\",\n"
-				+ "  \"apiKey\": \"06f9d72b9670dcc715e5b0e42768b37d\",\n"
-				+ "  \"password\": \"e202eb4a13cae81e8eeed939f0529385\",\n"
-				+ "  \"timestamp\": "+Utilities.getUnixEpochTime()+",\n"
-				+ "  \"enableCheckoutShoptype\": true\n"
+	public static String syncShopifyProducts(boolean isAdult, boolean isAgeRestricted) {
+		
+		return "{"
+				+ "\"storeName\":\"shop-types\","
+				+ "\"apiKey\":\"06f9d72b9670dcc715e5b0e42768b37d\","
+				+ "\"password\":\"e202eb4a13cae81e8eeed939f0529385\","
+				+ "\"timestamp\":" + Utilities.getUnixEpochTime() + ","
+				+ "\"restrictions\":"
+				+ "{\"isAdult\":\"" + isAdult + "\","
+				+ "\"isAgeRestricted\":\"" + isAgeRestricted + "\"}"
 				+ "}";
+		
 	}
 	
 	public static String syncWoocommerceProducts() {
+		
 		return "{\r\n"
 				+ "  \"storeName\": \"https://shoptypewoo.wpcomstaging.com\",\r\n"
 				+ "  \"storeHostUrl\": \"https://shoptypewoo.wpcomstaging.com\",\r\n"
@@ -79,37 +136,6 @@ public class Payload {
 				+ "  \"dokan_vendor_name\": \"Gada electronics\",\r\n"
 				+ "  \"enableCheckoutShoptype\": true,\r\n"
 				+ "  \"shippingServiceId\": \"001\"\r\n"
-				+ "}";
-		
-	}
-	
-	public static String updateAttributionWithL1Level(String vendorId, String attributionId) {
-		
-		return "{\r\n"
-				+ "  \"attributionConfig\": {\r\n"
-				+ "    \"configs\": {\r\n"
-				+ "      \"networkCommission\": {\r\n"
-				+ "        \"percentage\": 40\r\n"
-				+ "      },\r\n"
-				+ "      \"lIntro\": {\r\n"
-				+ "        \"percentage\": 50,\r\n"
-				+ "        \"timeLimit\": null,\r\n"
-				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
-				+ "      },\r\n"
-				+ "      \"l1\": {\r\n"
-				+ "        \"percentage\": 20,\r\n"
-				+ "        \"timeLimit\": null,\r\n"
-				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
-				+ "      },\r\n"
-				+ "      \"lX\": {\r\n"
-				+ "        \"percentage\": 30,\r\n"
-				+ "        \"timeLimit\": null,\r\n"
-				+ "        \"timeLimitUnit\": \"infinite\"\r\n"
-				+ "      }\r\n"
-				+ "    }\r\n"
-				+ "  },\r\n"
-				+ "  \"vendorId\": \"" + vendorId + "\",\r\n"
-				+ "  \"id\": \"" + attributionId + "\"\r\n"
 				+ "}";
 		
 	}
@@ -186,5 +212,19 @@ public class Payload {
 				+ "}";
 		
 	}
-
+	
+	public static String addStripePaymentPayoutConfig(String accountId, String key, String secret, String clientId) {
+		
+		return "{"
+				+ "\"payment_method\":\"stripe\","
+				+ "\"currency\":\"USD\","
+				+ "\"account_id\":\"" + accountId + "\","
+				+ "\"key\":\"" + key + "\","
+				+ "\"secret\":\"" + secret + "\","
+				+ "\"is_payout_same\":true,"
+				+ "\"client_id\":\"" + clientId + "\"" 
+				+ "}";
+		
+	}
+	
 }

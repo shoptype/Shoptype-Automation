@@ -24,7 +24,7 @@ import utilities.Utilities;
 
 public class Hooks extends BaseClass{
 	
-	@Before("@user_creation")
+	@Before("@ui")
 	public void beforeHook(Scenario scenario) throws IOException {
 		
 		prop = Utilities.readPropertiesFiles("betaConfig.properties");
@@ -45,7 +45,7 @@ public class Hooks extends BaseClass{
 
 	}
 	
-	@After("@user_creation")
+	@After("@ui")
 	public void afterHook(Scenario scenario) throws IOException, InterruptedException {
 		
 		if (scenario.isFailed()) {
@@ -59,11 +59,13 @@ public class Hooks extends BaseClass{
 		driver.quit();
 
 	}
-		
+	
 	@Before("@api")
-	public void apiBeforehook(Scenario scenario) {
+	public void apiBeforehook(Scenario scenario) throws IOException {
 		
 		scenarioName = scenario.getName();
+		prop = Utilities.readPropertiesFiles("betaConfig.properties");
+		PropertyConfigurator.configure(System.getProperty("user.dir") + "/log4j.properties");
 		
 	}
 	

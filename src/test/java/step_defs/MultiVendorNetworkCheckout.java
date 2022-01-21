@@ -1,5 +1,8 @@
 package step_defs;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import api_requests.APIRequest;
@@ -8,14 +11,182 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import pages.BaseClass;
+import utilities.Utilities;
 
 public class MultiVendorNetworkCheckout extends BaseClass {
 
 	protected static final Logger logger = LogManager.getLogger(MultiVendorNetworkCheckout.class.getName());
 	public static String platformId;
+	public static HashMap<String, String> data;
+	
+	@Given("User logs in as {string}")
+	public void user_logs_in_into_his_account(String userType) throws IOException {
+		
+		logger.info(" =========== " + scenarioName + " =========== ");
+	    
+		if(userType.equalsIgnoreCase("network")) {
+			
+			data = Utilities.readExcel("network", "");
+			logger.info("Network login details - " + data);
+			
+		} else if(userType.equalsIgnoreCase("vendor one")) {
+			
+			data = Utilities.readExcel("vendor", "1");
+			logger.info("Vendor One login details - " + data);
+			vendorEmail = data.get("email");
+			
+		} else if(userType.equalsIgnoreCase("vendor two")) {
+			
+			data = Utilities.readExcel("vendor", "2");
+			logger.info("Vendor Two login details - " + data);
+			
+		} else if(userType.equalsIgnoreCase("coseller")) {
+			
+			data = Utilities.readExcel("coseller", "");
+			logger.info("Coseller login details - " + data);
+			
+		}
+		
+		payload = Payload.loginUser(data.get("email"), data.get("password"));
+		logger.info("Payload for login api - " + payload);
+		
+		response = APIRequest.loginUser(prop.getProperty("backend_beta_url"), payload, null);
+		logger.info("Response code from Login API - " + response.statusCode());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from create empty  API - " + response.getBody().asPrettyString());
+			
+		}
+
+		loginAuthToken = response.then().extract().body().jsonPath().get("data.token");
+		logger.info("Login Auth Token - " + loginAuthToken);
+		
+	}
+	
+	@When("User selects {string} as a profile")
+	public void select_profile(String userType) {
+		
+		if(userType.equalsIgnoreCase("network")) {
+			
+			payload = Payload.authenticateUser("network");
+			logger.info("Payload to authenticate network profile - " + payload);
+			response = APIRequest.authenticateUser(prop.getProperty("backend_beta_url"), "Network", payload, loginAuthToken);
+			logger.info("Response code from authenticate API - " + response.statusCode());
+			if(response.statusCode() != 200) {
+				
+				logger.info("Response from create empty  API - " + response.getBody().asPrettyString());
+				
+			}
+			response.then().assertThat().statusCode(200);
+			
+			networkAuthToken = response.then().extract().body().jsonPath().get("token");
+			logger.info("Network auth token - " + networkAuthToken);
+			
+		} else if(userType.equalsIgnoreCase("vendor one")) {
+			
+			payload = Payload.authenticateUser("vendor");
+			logger.info("Payload to authenticate vendor one profile - " + payload);
+			response = APIRequest.authenticateUser(prop.getProperty("backend_beta_url"), "Vendor", payload, loginAuthToken);
+			logger.info("Response code from authenticate API - " + response.statusCode());
+			if(response.statusCode() != 200) {
+				
+				logger.info("Response from create empty  API - " + response.getBody().asPrettyString());
+				
+			}
+			response.then().assertThat().statusCode(200);
+			
+			firstVendorAuthToken = response.then().extract().body().jsonPath().get("token");
+			logger.info("First vendor auth token - " + firstVendorAuthToken);
+			
+		} else if(userType.equalsIgnoreCase("vendor two")) {
+			
+			payload = Payload.authenticateUser("vendor");
+			logger.info("Payload to authenticate vendor two network profile - " + payload);
+			response = APIRequest.authenticateUser(prop.getProperty("backend_beta_url"), "Vendor", payload, loginAuthToken);
+			logger.info("Response code from authenticate API - " + response.statusCode());
+			if(response.statusCode() != 200) {
+				
+				logger.info("Response from create empty  API - " + response.getBody().asPrettyString());
+				
+			}
+			response.then().assertThat().statusCode(200);
+			
+			secondVendorAuthToken = response.then().extract().body().jsonPath().get("token");
+			logger.info("Second vendor auth token - " + secondVendorAuthToken);
+			
+		} else if(userType.equalsIgnoreCase("coseller")) {
+			
+			payload = Payload.authenticateUser("coseller");
+			logger.info("Payload to authenticate coseller profile - " + payload);
+			response = APIRequest.authenticateUser(prop.getProperty("backend_beta_url"), "Coseller", payload, loginAuthToken);
+			logger.info("Response code from authenticate API - " + response.statusCode());
+			if(response.statusCode() != 200) {
+				
+				logger.info("Response from create empty  API - " + response.getBody().asPrettyString());
+				
+			}
+			response.then().assertThat().statusCode(200);
+			
+			cosellerAuthToken = response.then().extract().body().jsonPath().get("token");
+			logger.info("Coseller auth token - " + cosellerAuthToken);
+			
+		}
+		
+	}
+	
+	@Then("user should be logged in as {string}")
+	public void user_should_be_logged_in_as(String userType) {
+	    
+		if(userType.equalsIgnoreCase("network")) {
+			
+			
+			
+		} else if(userType.equalsIgnoreCase("vendor one")) {
+			
+			response = APIRequest.getVendorProfileDetails(prop.getProperty("backend_beta_url"), firstVendorAuthToken);
+			logger.info("Response code from get vendor profile API - " + response.statusCode());
+			if(response.statusCode() != 200) {
+				
+				logger.info("Response from get vendor profile API - " + response.getBody().asPrettyString());
+				
+			}
+			response.then().assertThat().statusCode(200);
+			firstVendorId = response.then().extract().body().jsonPath().get("vendors[0].id");
+			logger.info("Vendor ID - " + firstVendorId);
+			
+		} else if(userType.equalsIgnoreCase("vendor two")) {
+						
+			response = APIRequest.getVendorProfileDetails(prop.getProperty("backend_beta_url"), secondVendorAuthToken);
+			logger.info("Response code from get vendor profile API - " + response.statusCode());
+			if(response.statusCode() != 200) {
+				
+				logger.info("Response from get vendor profile API - " + response.getBody().asPrettyString());
+				
+			}
+			response.then().assertThat().statusCode(200);
+			secondVendorId = response.then().extract().body().jsonPath().get("vendors[0].id");
+			logger.info("Vendor ID - " + secondVendorId);
+			
+		} else if(userType.equalsIgnoreCase("coseller")) {
+			
+			response = APIRequest.getCosellerProfileDetails(prop.getProperty("backend_beta_url"), cosellerAuthToken);
+			logger.info("Response code from get coseller profile API - " + response.statusCode());
+			if(response.statusCode() != 200) {
+				
+				logger.info("Response from get coseller profile API - " + response.getBody().asPrettyString());
+				
+			}
+			cosellerUserId = response.then().extract().body().jsonPath().get("id");
+			logger.info("Coseller user id - " + cosellerUserId);
+			
+		} 
+		
+	}
 
 	@Given("^Network auth token is obtained$")
 	public void get_network_auth_token() {
+		
+		logger.info(" =========== " + scenarioName + " =========== ");
 
 		logger.info("Network Auth Token - " + networkAuthToken);
 
@@ -25,8 +196,12 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 	public void network_details_api() {
 
 		response = APIRequest.getNetworkDetails(prop.getProperty("backend_beta_url"), networkAuthToken);
-		logger.info("Response code from Get Network Details API - " + response.getStatusCode());
-//		logger.info("Response from Get Network Details API - " + response.getBody().asPrettyString());
+		logger.info("Response code from get network profile API - " + response.statusCode());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from get network profile API - " + response.getBody().asPrettyString());
+			
+		}
 
 	}
 
@@ -78,8 +253,12 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 	public void hit_create_checkout_api_with_platform_id() {
 
 		response = APIRequest.createCheckout(prop.getProperty("backend_beta_url"), shoptypeApiKey, deviceId, cartId, platformId);
-		logger.info("Response Code from Create Checkout API with Platform ID - " + response.statusCode());
-//		logger.info("Response from Create Checkout API with Platform ID - " + response.getBody().asPrettyString());
+		logger.info("Response code from create checkout with platform id API - " + response.statusCode());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from create checkout with platform id API - " + response.getBody().asPrettyString());
+			
+		}
 
 	}
 

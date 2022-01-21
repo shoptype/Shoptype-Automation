@@ -9,20 +9,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.junit.Assert;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import api_requests.APIRequest;
 import api_requests.Payload;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.path.json.JsonPath;
 import pages.BaseClass;
-import utilities.Utilities;
 
-public class AttributionAndCheckout extends BaseClass {
+public class MultiVendorShoptypeCheckout extends BaseClass {
 
-	protected static final Logger logger = LogManager.getLogger(AttributionAndCheckout.class.getName());
+	protected static final Logger logger = LogManager.getLogger(MultiVendorShoptypeCheckout.class.getName());
 	public static boolean isLoggedIn = false;
 	public static boolean isEmailVerified;
 	public static String vendorName;
@@ -41,334 +37,6 @@ public class AttributionAndCheckout extends BaseClass {
 	public static String publishProductUrl;
 	public static String orderTotal;
 
-	@Given("^User opens the website and signs in as existing user$")
-	public void user_opens_the_website_and_wants_to_register_a_new_user() throws IOException {
-		
-		logger.info(" =========== " + scenarioName + " =========== ");
-
-	}
-
-	@When("^User enters all the required details to signin as \"([^\"]*)\" \"([^\"]*)\"$")
-	public void user_enters_all_the_required_details_to_signup_and_verifies_the_email(String userNumber, String userType) throws IOException, InterruptedException {
-		
-		if (userType.equalsIgnoreCase("vendor")) {
-			
-			if(userNumber.equalsIgnoreCase("")) {
-				
-				Assert.assertTrue(userSignIn("", "Vendor"));
-				logger.info("Signed in as Vendor");
-				
-			} else if (userNumber.equalsIgnoreCase("first")) {
-				
-				Assert.assertTrue(userSignIn("First", "Vendor"));
-				logger.info("Signed in first Vendor");				
-				
-			} else if (userNumber.equalsIgnoreCase("second")) {
-
-				Assert.assertTrue(userSignIn("Second", "Vendor"));
-				logger.info("Signed in second Vendor");
-				
-			}
-		
-		} else if (userType.equalsIgnoreCase("coseller")) {
-
-			Assert.assertTrue(userSignIn("", "Coseller"));
-			logger.info("Signed in as Coseller");
-
-		} else if(userType.equalsIgnoreCase("network")) {
-			
-			Assert.assertTrue(userSignIn("", "Network"));
-			logger.info("Signed in as Network");			
-			
-		}
-
-	}
-
-	@When("^Clicks on \"([^\"]*)\"$")
-	public void clicks_on(String userType) throws IOException, InterruptedException {
-		
-		if (userType.equalsIgnoreCase("vendor")) {
-
-			wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendor)).click();
-			logger.info("Selected Vendor");
-			vendorOnboard.next.click();
-
-		} else if (userType.equalsIgnoreCase("coseller")) {
-
-			wait.until(ExpectedConditions.visibilityOf(cosellerOnboard.coseller)).click();
-			logger.info("Selected Coseller");
-			vendorOnboard.next.click();
-
-		} else if (userType.equalsIgnoreCase("network")) {
-			
-			Thread.sleep(5000);
-			wait.until(ExpectedConditions.visibilityOf(networkOnboard.network)).click();
-			logger.info("Selected Network");
-			vendorOnboard.next.click();
-			
-		}
-		
-		Thread.sleep(5000);
-		
-	}
-
-	@Then("^User should be logged in as \"([^\"]*)\"$")
-	public void user_should_be_logged_in_as(String userType) {
-
-		if (userType.equalsIgnoreCase("vendor")) {
-			
-			wait.until(ExpectedConditions.visibilityOf(vendorOnboard.vendorProfile));
-			Assert.assertTrue(vendorOnboard.vendorProfile.isDisplayed());
-			logger.info("Landed on vendor dashboard");
-			vendorUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of vendor - " + vendorUserId);
-			vendorAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-			logger.info("Vendor Auth Token - " + vendorAuthToken);
-
-		} else if (userType.equalsIgnoreCase("coseller")) {
-
-			wait.until(ExpectedConditions.visibilityOf(cosellerOnboard.cosellerProfile));
-			Assert.assertTrue(cosellerOnboard.cosellerProfile.isDisplayed());
-			logger.info("Landed on coseller dashboard");
-			cosellerUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of coseller - " + cosellerUserId);
-			cosellerAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-			logger.info("Coseller Auth Token - " + cosellerAuthToken);
-
-		} else if (userType.equalsIgnoreCase("network")) {
-			
-			wait.until(ExpectedConditions.visibilityOf(networkOnboard.networkProfile));
-			Assert.assertTrue(networkOnboard.networkProfile.isDisplayed());
-			logger.info("Landed on network dashboard");
-			networkUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of network - " + networkUserId);
-			networkAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-			logger.info("Network Auth Token - " + networkAuthToken);
-			
-		}
-		
-	}
-	
-	@Then("^Vendor id and user id should be saved for \"([^\"]*)\" vendor$")
-	public void save_first_vendor_id_and_user_id(String userNumber) {
-		
-		if(userNumber.equalsIgnoreCase("first")) {
-			
-			firstVendorUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of first vendor - " + firstVendorUserId);
-			JsonPath js = new JsonPath(Utilities.getItemFromLocalStorage(driver, "userProfile"));
-			firstVendorId = js.get("vendors[0].id");
-			logger.info("First Vendor ID - " + firstVendorId);
-			
-		} else if(userNumber.equalsIgnoreCase("second")) {
-			
-			secondVendorUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of second vendor - " + secondVendorUserId);
-			JsonPath js = new JsonPath(Utilities.getItemFromLocalStorage(driver, "userProfile"));
-			secondVendorId = js.get("vendors[0].id");
-			logger.info("Second Vendor ID - " + secondVendorId);
-			
-		} else if(userNumber.equalsIgnoreCase("")) {
-			
-			vendorUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of vendor - " + vendorUserId);
-			JsonPath js = new JsonPath(Utilities.getItemFromLocalStorage(driver, "userProfile"));
-			vendorId = js.get("vendors[0].id");
-			logger.info("Vendor ID - " + vendorId);
-			
-		}
-		
-	}
-
-	@Then("^\"([^\"]*)\" user id should be saved$")
-	public void user_id_should_be_saved(String userType) {
-		
-		if(userType.equalsIgnoreCase("coseller")) {
-			
-			cosellerUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of coseller - " + cosellerUserId);
-			
-		} else if(userType.equalsIgnoreCase("network")) {
-			
-			networkUserId = Utilities.getItemFromLocalStorage(driver, "_id");
-			logger.info("User ID of network - " + networkUserId);
-			
-		}
-		
-	}
-
-	@Then("^Authorization token of \"([^\"]*)\" \"([^\"]*)\" should be saved$")
-	public void authorization_token_of_should_be_saved(String userNumber, String userType) {
-
-		if (userType.equalsIgnoreCase("vendor")) {
-			
-			if(userNumber.equalsIgnoreCase("")) {
-				
-				vendorAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-				logger.info("Vendor Auth Token - " + vendorAuthToken);
-				
-			} else if(userNumber.equalsIgnoreCase("first")) {
-				
-				firstVendorAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-				logger.info("First Vendor Auth Token - " + firstVendorAuthToken);	
-				
-			} else if(userNumber.equalsIgnoreCase("second")) {
-				
-				secondVendorAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-				logger.info("Second Vendor Auth Token - " + secondVendorAuthToken);	
-				
-			}
-			
-		} else if (userType.equalsIgnoreCase("coseller")) {
-
-			cosellerAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-			logger.info("Coseller Auth Token - " + cosellerAuthToken);
-
-		} else if (userType.equalsIgnoreCase("network")) {
-			
-			networkAuthToken = Utilities.getItemFromLocalStorage(driver, "token");
-			logger.info("Network Auth Token - " + networkAuthToken);
-			
-		}
-
-	}
-
-	@Given("^Authorization token of \"([^\"]*)\" vendor and the Shopify payload are obtained$")
-	public void set_authorization_and_payload(String userNumber) {
-		
-		logger.info(" =========== " + scenarioName + " =========== ");
-		payload = Payload.syncShopifyProducts();
-		logger.info("Store - Shopify");
-		logger.info("Payload - " + payload);
-		
-		if(userNumber.equalsIgnoreCase("")) {
-			
-			logger.info("Vendor Auth Token - " + vendorAuthToken);
-			
-		} else if(userNumber.equalsIgnoreCase("first")) {
-			
-			logger.info("First Vendor Auth Token - " + firstVendorAuthToken);
-			
-		} else if(userNumber.equalsIgnoreCase("second")) {
-			
-			logger.info("Second Vendor Auth Token - " + secondVendorAuthToken);
-			
-		}
-
-	}
-
-	@When("^Shopify Sync Product API is hit for \"([^\"]*)\" vendor$")
-	public void sync_shopify_products(String userNumber) throws IOException {
-		
-		if(userNumber.equalsIgnoreCase("")) {
-			
-			response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), vendorAuthToken, payload);
-				
-		} else if(userNumber.equalsIgnoreCase("first")) {
-			
-			response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), firstVendorAuthToken, payload);
-			
-		} else if(userNumber.equalsIgnoreCase("second")) {
-			
-			response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), secondVendorAuthToken, payload);
-
-		}
-		
-//		logger.info("Response from Sync Shopify API - " + response.getBody().asPrettyString());
-		logger.info("Response code from Sync Shopify API - " + response.statusCode());
-		
-	}
-
-	@Then("^Products should added to catalog and the store should be synced$")
-	public void check_store_syc() {
-
-		if(response.getStatusCode() != 400) {
-			
-			response.then().assertThat().statusCode(202);
-			
-		}
-
-	}
-
-	@Given("^Authorization token of \"([^\"]*)\" vendor and attribution payload for setting intro and close is obtained$")
-	public void get_payload_for_setting_intro_and_close(String userNumber) {
-		
-		logger.info(" =========== " + scenarioName + " =========== ");
-		
-		if(userNumber.equalsIgnoreCase("")) {
-
-			logger.info("Setting Attribution with Intro and Close level");
-			payload = Payload.setAttribution_Intro_Close(vendorId);
-			
-		} else if(userNumber.equalsIgnoreCase("first")) {
-			
-			logger.info("Setting Attribution with Intro and Close level for First Vendor");
-			payload = Payload.setAttribution_Intro_Close(firstVendorId);
-			
-		} else if(userNumber.equalsIgnoreCase("second")) {
-			
-			logger.info("Setting Attribution with Intro and Close level for Second vendor");
-			payload = Payload.setAttribution_Intro_Close(secondVendorId);
-			
-		}
-		
-		logger.info("Payload - " + payload);
-
-	}
-
-	@When("^Create Vendor Attribution API is hit for \"([^\"]*)\" vendor$")
-	public void create_vendor_attribution(String userNumber) throws IOException {
-		
-		if(userNumber.equalsIgnoreCase("")) {
-			
-			response = APIRequest.setAttributionIntroClose(prop.getProperty("backend_beta_url"), vendorAuthToken, payload);
-			
-		} else if(userNumber.equalsIgnoreCase("first")) {
-			
-			response = APIRequest.setAttributionIntroClose(prop.getProperty("backend_beta_url"), firstVendorAuthToken, payload);
-			
-		} else if(userNumber.equalsIgnoreCase("second")) {
-			
-			response = APIRequest.setAttributionIntroClose(prop.getProperty("backend_beta_url"), secondVendorAuthToken, payload);
-			
-		}
-		
-//		logger.info("Response from Create Vendor Attribution API - " + response.getBody().asPrettyString());
-		logger.info("Response code from Create Vendor Attribution API - " + response.statusCode());
-
-	}
-
-	@Then("^Network commision should be set with Intro and Close Level for \"([^\"]*)\" vendor$")
-	public void network_commision_with_intro_and_close_set(String userNumber) {
-		
-		if(userNumber.equalsIgnoreCase("")) {
-			
-			attributionId = response.then().extract().body().jsonPath().get("data.id");
-			logger.info("Vendor Attrribution Id - " + attributionId);
-			
-		} else if(userNumber.equalsIgnoreCase("first")) {
-			
-			firstVendorAttributionId = response.then().extract().body().jsonPath().get("data.id");
-			logger.info("First Vendor Attrribution Id - " + firstVendorAttributionId);
-			
-		} else if(userNumber.equalsIgnoreCase("second")) {
-			
-			secondVendorAttributionId = response.then().extract().body().jsonPath().get("data.id");
-			logger.info("Second Vendor Attrribution Id - " + secondVendorAttributionId);
-			
-		}
-		
-		if(response.getStatusCode() != 400) {
-			
-			response.then().assertThat().statusCode(200);		
-			response.then().assertThat().body("data.attributionConfig.configs.lIntro.percentage", equalTo(50));
-			response.then().assertThat().body("data.attributionConfig.configs.lX.percentage", equalTo(50));
-			response.then().assertThat().body("data.attributionConfig.configs.networkCommission.percentage", equalTo(30));
-			
-		}
-
-	}
-	
 	@Given("^Authorization token of coseller, \"([^\"]*)\" vendor id and currency is obtained$")
 	public void set_currency_for_fetch_product(String userNumber) throws IOException {
 		
@@ -411,8 +79,12 @@ public class AttributionAndCheckout extends BaseClass {
 			
 		}
 		
-//		logger.info("Response from Fetch Product API - " + response.getBody().asPrettyString());
 		logger.info("Response code from Fetch Product API - " + response.statusCode());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from fetch product API - " + response.getBody().asPrettyString());
+			
+		}
 		
 	}
 	
@@ -527,8 +199,12 @@ public class AttributionAndCheckout extends BaseClass {
 			
 		}
 		
-//		logger.info("Response from Get Publish Slug API - " + response.getBody().asPrettyString());
 		logger.info("Response code from Get Publish Slug API - " + response.statusCode());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from get publish slug api API - " + response.getBody().asPrettyString());
+			
+		}
 		
 	}
 	
@@ -607,7 +283,12 @@ public class AttributionAndCheckout extends BaseClass {
 		
 		response = APIRequest.getCosellerView(prop.getProperty("backend_beta_url"), cosellerAuthToken, "cosellerView", currency);
 		logger.info("Response code from Coseller View API - " + response.statusCode());
-		logger.info("Response from Coseller View API - " + response.body().asPrettyString());
+		
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from Coseller View API - " + response.getBody().asPrettyString());
+			
+		}
 		
 		response.then().assertThat().body("total_publishes", greaterThan(0));
 		
@@ -643,7 +324,11 @@ public class AttributionAndCheckout extends BaseClass {
 		
 		response = APIRequest.createUserEvent(prop.getProperty("backend_beta_url"), payload);
 		logger.info("Response code from Create User Event API - " + response.statusCode());
-//		logger.info("Response from Create User Event API - " + response.getBody().asPrettyString());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from Create User Event API - " + response.getBody().asPrettyString());
+			
+		}
 		
 	}
 	
@@ -654,7 +339,12 @@ public class AttributionAndCheckout extends BaseClass {
 		response = APIRequest.getCosellerView(prop.getProperty("backend_beta_url"), cosellerAuthToken, "cosellerView", currency);
 		response.then().assertThat().statusCode(200);
 		logger.info("Response code from Coseller View API - " + response.statusCode());
-		logger.info("Response from Coseller View API - " + response.body().asPrettyString());
+		
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from Coseller View API - " + response.getBody().asPrettyString());
+			
+		}
 		
 		response.then().assertThat().body("total_clicks", greaterThan(0));
 		
@@ -674,7 +364,12 @@ public class AttributionAndCheckout extends BaseClass {
 		
 		response = APIRequest.createEmptyCart(prop.getProperty("backend_beta_url"), shoptypeApiKey);
 		logger.info("Response code from create empty cart api - " + response.statusCode());
-//		logger.info("Response from create empty cart api - " + response.getBody().asPrettyString());
+		
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from create empty  API - " + response.getBody().asPrettyString());
+			
+		}
 		
 	}
 	
@@ -728,7 +423,11 @@ public class AttributionAndCheckout extends BaseClass {
 		}	
 
 		logger.info("Response code from Add Items to Cart API - " + response.statusCode());
-//		logger.info("Response from Add Items to Cart API - " + response.getBody().asPrettyString());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from Add Items to Cart  API - " + response.getBody().asPrettyString());
+			
+		}
 		
 	}
 	
@@ -755,7 +454,12 @@ public class AttributionAndCheckout extends BaseClass {
 		
 		response = APIRequest.createCheckout(prop.getProperty("backend_beta_url"), shoptypeApiKey, deviceId, cartId, null);
 		logger.info("Response Code from Create Checkout API - " + response.statusCode());
-//		logger.info("Response from Create Checkout API - " + response.getBody().asPrettyString());
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from create checkout  API - " + response.getBody().asPrettyString());
+			
+		}
+
 		
 	}
 	
@@ -769,48 +473,5 @@ public class AttributionAndCheckout extends BaseClass {
 		logger.info("Redirect URI - " + redirectUri);
 		
 	}
-		
-	public static boolean userSignIn(String userNumber, String userType) throws IOException, InterruptedException {
-
-		isEmailVerified = false;
-
-		if (userType.equalsIgnoreCase("vendor")) {
-			
-			if(userNumber.equalsIgnoreCase("") ) {
-				
-				data = Utilities.readExcel("vendor", "1");
-				logger.info("Trying to Sign In as Vendor");	
-				
-			} else if(userNumber.equalsIgnoreCase("first")) {
-				
-				data = Utilities.readExcel("vendor", "1");
-				vendorEmail = data.get("email");
-				logger.info("Trying to Sign In as Vendor");
-				
-			} else if(userNumber.equalsIgnoreCase("second")) {
-				
-				data = Utilities.readExcel("vendor", "2");
-				logger.info("Trying to Sign In as Vendor");
-				
-			}
-			
-		} else if (userType.equalsIgnoreCase("coseller")) {
-
-			data = Utilities.readExcel("coseller", "");
-			logger.info("Trying to Sign In as Coseller");
-
-		} else if (userType.equalsIgnoreCase("network")) {
-
-			data = Utilities.readExcel("network", "");
-			logger.info("Trying to Sign In as Network");
-
-		}
-
-		isEmailVerified = login.signInUser(wait, data);
-		logger.info("Email ID - " + data.get("email"));
-
-		return isEmailVerified;
-
-	}
-
+	
 }
