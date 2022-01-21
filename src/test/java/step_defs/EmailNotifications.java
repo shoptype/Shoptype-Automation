@@ -14,9 +14,9 @@ import io.cucumber.java.en.When;
 import pages.BaseClass;
 import utilities.Utilities;
 
-public class Notifications extends BaseClass{
+public class EmailNotifications extends BaseClass{
 	
-	protected static final Logger logger = LogManager.getLogger(Notifications.class.getName());
+	protected static final Logger logger = LogManager.getLogger(EmailNotifications.class.getName());
 	public static HashMap<String, String> signUpData;
 	
 	@Given("^A new user comes to shoptype$")

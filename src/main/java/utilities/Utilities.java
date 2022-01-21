@@ -61,7 +61,7 @@ public class Utilities {
 			data.put("email", getNewEmailId());
 			data.put("password", "#Kiran1234");
 			data.put("vendor_url", "https://www.quora.com");
-			data.put("selling_category", getNewEmailId().split("@")[0]);
+			data.put("vendor_name", getNewEmailId().split("@")[0]);
 			
 		} else if(userType.equalsIgnoreCase("coseller")) {
 			
@@ -79,7 +79,7 @@ public class Utilities {
 			data.put("email", getNewEmailId());
 			data.put("password", "#Kiran1234");
 			
-			data.put("newtork_name", getNewEmailId());
+			data.put("network_name", getNewEmailId());
 			data.put("newtork_url", "https://www." + getNewEmailId().split("@")[0] + ".com/");
 			
 		}

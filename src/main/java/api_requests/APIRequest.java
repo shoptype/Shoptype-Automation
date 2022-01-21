@@ -27,13 +27,153 @@ public class APIRequest {
 		return request;
 
 	}
+	
+	public static Response registerUser(String baseUri, String payload, String platformId) {
+		
+		apiresource = ApiResources.valueOf("Register");
+		request = getSpecswithoutToken(baseUri)
+					.body(payload)
+					.header("X-Shoptype-PlatformId", platformId.replace("\"", ""));
+		response = request.post(apiresource.getResource());
+		return response;
+		
+	} 
+	
+	public static Response authenticateUser(String baseUri, String userType, String payload, String authToken) {
+		
+		apiresource = ApiResources.valueOf("AuthAPI");
+		request = getSpecswithToken(baseUri, authToken)
+					.body(payload);
+		response = request.post(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response loginUser(String baseUri, String payload, String platformId) {
+		
+		apiresource = ApiResources.valueOf("LoginAPI");
+		
+		if(platformId != null) {
+			
+			request = getSpecswithoutToken(baseUri)
+					.body(payload)
+					.header("X-Shoptype-PlatformId", platformId);
+			response = request.post(apiresource.getResource());
+			
+		} else {
+			
+			request = getSpecswithoutToken(baseUri)
+					.body(payload);
+			response = request.post(apiresource.getResource());
+			
+		}
+		
+		return response;
+		
+	}
+	
+	public static Response createVendorProfile(String baseUri, String payload, String authToken) {
+		
+		apiresource = ApiResources.valueOf("VendorProfileCreation");
+		request = getSpecswithToken(baseUri, authToken)
+					.body(payload);
+		response = request.post(apiresource.getResource());
+		return response;
+		
+	} 
+	
+	public static Response createNetworkProfile(String baseUri, String payload, String authToken) {
+		
+		apiresource = ApiResources.valueOf("NetworkProfileCreation");
+		request = getSpecswithToken(baseUri, authToken)
+					.body(payload);
+		response = request.post(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response sendInvitetoVendorFromNetwork(String baseUri, String payload, String networkAuthToken) {
+		
+		apiresource = ApiResources.valueOf("InviteVendorToNetwork");
+		request = getSpecswithToken(baseUri, networkAuthToken)
+					.body(payload);
+		response = request.post(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response acceptNetworkInviteFromVendor(String baseUri, String payload, String vendorAuthToken) {
+		
+		apiresource = ApiResources.valueOf("AcceptNetworkInviteFromVendor");
+		request = getSpecswithToken(baseUri, vendorAuthToken)
+					.body(payload);
+		response = request.put(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response manageVendorsFromNetwork(String baseUri, String networkAuthToken) {
+		
+		apiresource = ApiResources.valueOf("ManageVendorsForNetwork");
+		request = getSpecswithToken(baseUri, networkAuthToken);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getNetworkConnectionsForVendor(String baseUri, String vendorAuthToken) {
+		
+		apiresource = ApiResources.valueOf("GetNetworkConnectionsForVendor");
+		request = getSpecswithToken(baseUri, vendorAuthToken);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getVendorProfileDetails(String baseUri, String vendorAuthToken) {
+		
+		apiresource = ApiResources.valueOf("VendorDetailsAPI");
+		request = getSpecswithToken(baseUri, vendorAuthToken);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getNetworkProfileDetails(String baseUri, String vendorAuthToken) {
+		
+		apiresource = ApiResources.valueOf("NetworkProfileCreation");
+		request = getSpecswithToken(baseUri, vendorAuthToken);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+		
+	public static Response deleteNetworkFromVendor(String baseUri, String networkId, String vendorAuthToken) {
+		
+		apiresource = ApiResources.valueOf("DeleteNetworkFromVendor");
+		request = getSpecswithToken(baseUri, vendorAuthToken)
+					.pathParam("networkId", networkId);
+		response = request.delete(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response deleteVendorFromNetwork(String baseUri, String vendorId, String networkAuthToken) {
+		
+		apiresource = ApiResources.valueOf("DeleteNetworkFromVendor");
+		request = getSpecswithToken(baseUri, networkAuthToken)
+					.pathParam("networkId", vendorId);
+		response = request.delete(apiresource.getResource());
+		return response;
+		
+	}
 
 	public static void deleteUser(String baseUri, String userId, String authToken) {
 
 		apiresource = ApiResources.valueOf("DeleteUser");
 		request = getSpecswithToken(baseUri, authToken);
 		response = request.delete(apiresource.getResource() + userId.replace("\"", ""));
-		response.then().log().body().log().headers().log().status().assertThat().statusCode(200);
+		response.then().log().headers().log().status().log().body().assertThat().statusCode(200);
 
 	}
 	
@@ -56,15 +196,15 @@ public class APIRequest {
 		return response;
 
 	}
-
-	public static Response setAttributionIntroClose(String baseUri, String authToken, String payload) {
-
-		apiresource = ApiResources.valueOf("CreateVendorAttribution");
-		request = getSpecswithToken(baseUri, authToken)
-					.body(payload);
-		response = request.post(apiresource.getResource());
+	
+	public static Response getAttributionDetails(String baseUri, String vendorAuthToken, String vendorId) {
+		
+		apiresource = ApiResources.valueOf("GetVendorAttributionDetails");
+		request = getSpecswithToken(baseUri, vendorAuthToken)
+					.pathParam("vendorId", vendorId);
+		response = request.get(apiresource.getResource());
 		return response;
-
+		
 	}
 
 	public static Response updateAttribution(String baseUri, String authToken, String payload, String attributionId) {
@@ -236,5 +376,67 @@ public class APIRequest {
 		return response;
 		
 	}
-
+	
+	public static Response addPaymentsAndPayouts(String baseUri, String networkAuthToken, String payload) {
+		
+		apiresource = ApiResources.valueOf("AddPaymentConfig");
+		request = getSpecswithToken(baseUri, networkAuthToken)
+				.body(payload);
+		response = request.post(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getPaymentDetails(String baseUri, String networkAuthToken) {
+		
+		apiresource = ApiResources.valueOf("AddPaymentConfig");
+		request = getSpecswithToken(baseUri, networkAuthToken);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getPayoutDetails(String baseUri, String networkAuthToken) {
+		
+		apiresource = ApiResources.valueOf("AddPayoutConfig");
+		request = getSpecswithToken(baseUri, networkAuthToken);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getVendorsFromCoseller(String baseUri, String restrictionValue, String restrictionKey) {
+		
+		apiresource = ApiResources.valueOf("GetVendorsFromCoseller");
+		request = getSpecswithoutToken(baseUri)
+					.queryParam("currency", "USD")
+					.queryParam("restrictionsKey", restrictionKey)
+					.queryParam("restrictionsValue", restrictionValue);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getProductsForVendorFromCoseller(String baseUri, String cosellerAuthToken, String restrictionValue, String restrictionKey, String vendorId) {
+		
+		apiresource = ApiResources.valueOf("GetVendorsFromCoseller");
+		request = getSpecswithToken(baseUri, cosellerAuthToken)
+					.queryParam("vendorId", vendorId)
+					.queryParam("currency", "USD")
+					.queryParam("includeFields", "currency,catalogId,description,id")
+					.queryParam("restrictionsKey", restrictionKey)
+					.queryParam("restrictionsValue", restrictionValue);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
+	public static Response getCosellerProfileDetails(String baseUri, String cosellerAuthToken) {
+		
+		apiresource = ApiResources.valueOf("GetCosellerProfileDetails");
+		request = getSpecswithToken(baseUri, cosellerAuthToken);
+		response = request.get(apiresource.getResource());
+		return response;
+	}
+	
 }

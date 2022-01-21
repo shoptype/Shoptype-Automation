@@ -1,6 +1,7 @@
 package pages;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.response.Response;
@@ -76,6 +78,28 @@ public class BaseClass {
 	public static String cosellerEmail;
 	
 	public static int refreshCountThreshold = 15;
+	
+	public static HashMap<String, String> userData = null;
+	public static HashMap<String, String> networkData = null;
+	public static HashMap<String, String> vendorData = null;
+	public static HashMap<String, String> cosellerData = null;
+	public static Select countryDropDown;
+	public static String networkName;
+	public static String vendorName;
+	public static WebDriverWait waitForUpdate;
+	
+	public static String automationNetworkUserId;
+	public static String automationNetworkId;
+	public static String automationNetworkToken;
+	
+	public static String automationVendorUserId;
+	public static String automationVendorId;
+	public static String automationVendorToken;
+	
+	public static String automationCosellerUserId;
+	public static String automationCosellerToken;
+	public static String automationCosellerId;
+	public static String loginAuthToken;
 
 	public static void initChromeBrowser(String url) throws IOException {
 		

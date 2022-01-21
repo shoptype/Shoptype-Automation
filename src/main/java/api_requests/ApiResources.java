@@ -6,6 +6,8 @@ public enum ApiResources {
 	LoginAPI("/login"), 
 	AuthAPI("/authenticate"), 
 	VendorProfileCreation("/vendors"),
+	NetworkProfileCreation("/networks"),
+	GetCosellerProfileDetails("/cosellers"),
 	SyncShopifyStoreAPI("/store/shopify"),
 	SyncWoocommerceStoreAPI("/store/woo-commerce"), 
 	VendorDetailsAPI("/me"),
@@ -13,6 +15,7 @@ public enum ApiResources {
 	PublishProduct("/publish-product"),
 	ProductSearch("/products"),
 	CreateVendorAttribution("/vendor-attribution"),
+	GetVendorAttributionDetails("/vendor-attribution/{vendorId}"),
 	CosellerDashboard("/coseller-dashboard"),
 	CreateCart("/cart"),
 	CreateUserEvent("/track/user-event"),
@@ -20,6 +23,16 @@ public enum ApiResources {
 	WooCommercePlaceOrder("/wp-json/wc/v3/orders"),
 	AwakeMoneyAccount("/awake-money/accounts"),
 	NetworkDetails("/networks"),
+	InviteVendorToNetwork("/network-vendor-connections"),
+	ManageVendorsForNetwork("/networks/manage-vendors"),
+	DeleteVendorFromNetwork("/network-vendor-connections/{vendorId}"),
+	AcceptNetworkInviteFromVendor("/vendor-network-connections/accept"),
+	DeleteNetworkFromVendor("/vendor-network-connections/{networkId}"),
+	GetNetworkConnectionsForVendor("/vendor-network-connections"),
+	AddPaymentConfig("/payment-config"),
+	AddPayoutConfig("/payout-config"),
+	GetVendorsFromCoseller("/vendors"),
+	GetProductsForVendorFromCoseller("/products"),
 	DeleteUser("/user/");
 
 	private String resource;
