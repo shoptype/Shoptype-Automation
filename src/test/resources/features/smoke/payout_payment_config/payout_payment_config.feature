@@ -26,13 +26,6 @@ Feature: Payment and Payout Configuartion
 		When Payment and payout details are added for the network
 		Then Payment configuration should be saved for that network
 		And Payout configuration should be saved for that network
-
-	@api
-	Scenario: Accept network connection from vendor
-		Given Network sends an invite to vendor 
-		When The vendor accepts the connection request
-		Then The network should be able to see the added vendor to the connection
-		And Vendor should be able to see the network added to connection
 	
 	@api
 	Scenario: Update attribution details
