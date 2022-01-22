@@ -4,8 +4,6 @@ import java.io.IOException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import api_requests.APIRequest;
 import api_requests.Payload;
 import io.cucumber.java.en.Given;
@@ -257,66 +255,7 @@ public class PaymentPayoutConfig extends BaseClass {
 		}
 		
 	}
-	
-	@Given("Network sends an invite to vendor")
-	public void network_sends_an_invite_to_vendor() {
-		
-		logger.info(" ============ " + scenarioName + " ============ ");
-	    
-		logger.info("Sending invite to vendor from network account");
-		payload = Payload.sendInviteToVendorFromNetwork(automationVendorId);
-		logger.info("Payload for sending vendor invite - " + payload);
-		response = APIRequest.sendInvitetoVendorFromNetwork(prop.getProperty("backend_beta_url"), payload, automationNetworkToken);
-		logger.info("Response code from send invite to vendor from network API - " + response.statusCode());
-		if(response.statusCode() != 200) {
-			
-			logger.info("Response from send invite to vendor from network API - " + response.getBody().asPrettyString());
-			
-		}
-		response.then().assertThat().statusCode(200);
-		
-	}
-	
-	@When("The vendor accepts the connection request")
-	public void the_vendor_accepts_the_connection_request() {
-	    
-		payload = Payload.acceptNetworkInviteFromVendor(automationNetworkId);
-		logger.info("Payload for accepting network invite - " + payload);
-		
-		response = APIRequest.acceptNetworkInviteFromVendor(prop.getProperty("backend_beta_url"), payload, automationVendorToken);
-		logger.info("Response code from accept network invite from vendor API - " + response.statusCode());
-		if(response.statusCode() != 200) {
-			
-			logger.info("Response from accept network invite from vendor API - " + response.getBody().asPrettyString());
-			
-		}
-		logger.info("Accepted network connection from vendor account");
-		response.then().assertThat().statusCode(200);
-		
-	}
-	
-	@Then("The network should be able to see the added vendor to the connection")
-	public void the_network_should_be_able_to_see_the_added_vendor_to_the_connection() {
-	    
-		String connectedVendor;
-		
-		response = APIRequest.manageVendorsFromNetwork(prop.getProperty("backend_beta_url"), automationNetworkToken);
-		logger.info("Response code manage vendors from network API - " + response.statusCode());
-		if(response.statusCode() != 200) {
-			
-			logger.info("Response from manage vendors from network API - " + response.getBody().asPrettyString());
-			
-		}
-		response.then().assertThat().statusCode(200);
-		
-		connectedVendor = response.then().extract().body().jsonPath().get("vendors[0].id");
-		logger.info("Connected Vendor ID - " + connectedVendor);
-		
-		Assert.assertEquals(automationVendorId, connectedVendor);
-		logger.info("Connection verified from network account");
-		
-	}
-			
+					
 	@Given("{string} auth token is obtained")
 	public void vendor_auth_token_is_obtained(String userType) {
 	    
@@ -333,27 +272,7 @@ public class PaymentPayoutConfig extends BaseClass {
 		}
 		
 	}
-		
-	@Then("Vendor should be able to see the network added to connection")
-	public void vendor_should_be_present_in_the_connection() {
-		
-		String connectedNetworkId;
-		
-		response = APIRequest.getNetworkConnectionsForVendor(prop.getProperty("backend_beta_url"), automationVendorToken);
-		logger.info("Response code from get network connections for vendor API - " + response.statusCode());
-		if(response.statusCode() != 200) {
-			
-			logger.info("Response from get network connections from vendor API - " + response.getBody().asPrettyString());
-			
-		}
-		response.then().assertThat().statusCode(200);
-		
-		connectedNetworkId = response.then().extract().body().jsonPath().get("[0].network_id");
-		Assert.assertEquals(connectedNetworkId, automationNetworkId);
-		logger.info("Verified network connection in vendor account");
-		
-	}
-		
+				
 	@When("Import product from shopify api is hit")
 	public void import_product_from_shopify_api_is_hit() {
 		
@@ -488,39 +407,9 @@ public class PaymentPayoutConfig extends BaseClass {
 		
 	}
 	
-	@When("The network navigates to payments page")
-	public void the_network_navigates_to_payments_page() {
-	    
-		wait.until(ExpectedConditions.visibilityOf(networkOnboard.payments));
-		networkOnboard.payments.click();
-		logger.info("Clicked on payments");
-		
-	}
 	
-	@Then("The payment configuration added should be visible")
-	public void the_payment_configuration_added_should_be_visible() {
-	    
-		Assert.assertTrue(networkOnboard.confirmPayments.isDisplayed());
-		logger.info("Confirmed payments configuartion on UI");
-		
-	}
 	
-	@When("The network navigates to payouts page")
-	public void the_network_navigates_to_payouts_page() {
-	    
-		wait.until(ExpectedConditions.visibilityOf(networkOnboard.payouts));
-		networkOnboard.payouts.click();
-		logger.info("Clicked on payouts");
-		
-	}
 	
-	@Then("The payout configuration added should be visible")
-	public void the_payout_configuration_added_should_be_visible() {
-	    
-		Assert.assertTrue(networkOnboard.confirmPayouts.isDisplayed());
-		logger.info("Confirmed payouts configuration on UI");
-		
-	}
 	
 	
 
