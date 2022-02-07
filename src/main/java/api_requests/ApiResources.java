@@ -33,6 +33,7 @@ public enum ApiResources {
 	AddPayoutConfig("/payout-config"),
 	GetVendorsFromCoseller("/vendors"),
 	GetProductsForVendorFromCoseller("/products"),
+	CheckoutDetails("/checkout/{checkoutId}"),
 	DeleteUser("/user/");
 
 	private String resource;

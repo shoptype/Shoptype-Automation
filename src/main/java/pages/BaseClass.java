@@ -100,7 +100,7 @@ public class BaseClass {
 	public static String automationCosellerToken;
 	public static String automationCosellerId;
 	public static String loginAuthToken;
-
+	
 	public static void initChromeBrowser(String url) throws IOException {
 		
 		WebDriverManager.chromedriver().setup();

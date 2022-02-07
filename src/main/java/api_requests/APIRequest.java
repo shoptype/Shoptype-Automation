@@ -439,4 +439,17 @@ public class APIRequest {
 		return response;
 	}
 	
+	public static Response getCheckoutDetails(String baseUri, String checkoutId, String apiKey) {
+		
+		apiresource = ApiResources.valueOf("CheckoutDetails");
+		request = getSpecswithoutToken(baseUri)
+					.header("x-shoptype-api-key", apiKey.replace("\"", ""))
+					.header("Referer", "https://beta.shoptype.com/")
+					.header("Origin", "https://beta.shoptype.com/")
+					.pathParam("checkoutId", checkoutId);
+		response = request.get(apiresource.getResource());
+		return response;
+		
+	}
+	
 }

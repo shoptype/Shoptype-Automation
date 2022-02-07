@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
+
 import api_requests.APIRequest;
 import api_requests.Payload;
 import io.cucumber.java.en.Given;
@@ -18,6 +20,8 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 	protected static final Logger logger = LogManager.getLogger(MultiVendorNetworkCheckout.class.getName());
 	public static String platformId;
 	public static HashMap<String, String> data;
+	public static double actualTax1;
+	public static double actualTax2;
 	
 	@Given("User logs in as {string}")
 	public void user_logs_in_into_his_account(String userType) throws IOException {
@@ -251,12 +255,12 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 
 	@When("^Create checkout api is hit with platform id$")
 	public void hit_create_checkout_api_with_platform_id() {
-
+		
 		response = APIRequest.createCheckout(prop.getProperty("backend_beta_url"), shoptypeApiKey, deviceId, cartId, platformId);
 		logger.info("Response code from create checkout with platform id API - " + response.statusCode());
 		if(response.statusCode() != 200) {
 			
-			logger.info("Response from create checkout with platform id API - " + response.getBody().asPrettyString());
+			logger.info("Response ahdbfbadhfbbakd from create checkout with platform id API - " + response.getBody().asPrettyString());
 			
 		}
 
@@ -270,5 +274,56 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 		logger.info("Opened checkout url - " + redirectUri);
 
 	}
-
+	
+	@Given("Checkout id has been obtained")
+	public void get_checkout_id() {
+		
+		logger.info(" =========== " + scenarioName + " =========== ");
+		
+		logger.info("Checkout Id - " + checkoutId);
+		logger.info("First vendor id - " + firstVendorId);
+		logger.info("Second vendor id - " + secondVendorId);
+			
+	}
+	
+	@When("Checkout details for that order is requested")
+	public void checkout_details_api() {
+		
+		response = APIRequest.getCheckoutDetails(prop.getProperty("backend_beta_url"), checkoutId, prop.getProperty("shoptype_api_key"));
+		logger.info("Response code from get checkout details api - " + response.getStatusCode());
+		
+		if(response.statusCode() != 200) {
+			
+			logger.info("Response from get checkout details api - " + response.getBody().asPrettyString());
+			
+		}
+				
+	}
+	
+	@Then("Response should contain the shipping and taxes both at vendor and product level")
+	public void response_should_contatin_taxes_object() {
+		
+		logger.info("First Vendor Tax - " + response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".taxes"));
+		float firstVendorTax = response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".taxes.amount");
+		
+		logger.info("Second Vendor Tax - " + response.then().extract().body().jsonPath().get("order_details_per_vendor." + secondVendorId + ".taxes"));
+		float secondVendorTax = response.then().extract().body().jsonPath().get("order_details_per_vendor." + secondVendorId + ".taxes.amount");
+		
+		Assert.assertTrue(firstVendorTax > 0);
+		logger.info("Verified first vendor tax");
+		Assert.assertTrue(secondVendorTax > 0);
+		logger.info("Verified second vendor tax");
+		
+		logger.info("Cart lines for first vendor product - " + response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".cart_lines"));
+		float firstVendorProductTax = response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".cart_lines[0].taxes.amount");
+		Assert.assertTrue(firstVendorProductTax > 0);
+		logger.info("Verified first vendor product tax");
+		
+		logger.info("Cart lines for second vendor product - " + response.then().extract().body().jsonPath().get("order_details_per_vendor." + secondVendorId + ".cart_lines"));
+		float secondVendorProductTax = response.then().extract().body().jsonPath().get("order_details_per_vendor." + secondVendorId + ".cart_lines[0].taxes.amount");
+		Assert.assertTrue(secondVendorProductTax > 0);
+		logger.info("Verified second vendor product tax");
+		
+	}
+	
 }
