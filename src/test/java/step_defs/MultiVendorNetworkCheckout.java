@@ -287,14 +287,40 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 	}
 	
 	@When("Checkout details for that order is requested")
-	public void checkout_details_api() {
+	public void checkout_details_api() throws InterruptedException {
 		
-		response = APIRequest.getCheckoutDetails(prop.getProperty("backend_beta_url"), checkoutId, prop.getProperty("shoptype_api_key"));
-		logger.info("Response code from get checkout details api - " + response.getStatusCode());
+		boolean isFound = false;
+		int hitCount = 0;
 		
-		if(response.statusCode() != 200) {
+		while(true) {
 			
-			logger.info("Response from get checkout details api - " + response.getBody().asPrettyString());
+			if(response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".cart_lines[0].taxes.amount") != null) {
+				
+				isFound = true;
+				
+			} else {
+				
+				response = APIRequest.getCheckoutDetails(prop.getProperty("backend_beta_url"), checkoutId, prop.getProperty("shoptype_api_key"));
+				logger.info("Response code from get checkout details api - " + response.getStatusCode());
+				
+				if(response.statusCode() != 200) {
+					
+					logger.info("Response from get checkout details api - " + response.getBody().asPrettyString());
+					
+				}
+				
+				Thread.sleep(3000);
+				
+			}
+			
+			if(isFound == true) {
+				
+				break;
+				
+			}
+			
+			hitCount++;
+			logger.info("Number of time checkout details api was requested " + hitCount);
 			
 		}
 				
@@ -302,7 +328,7 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 	
 	@Then("Response should contain the shipping and taxes both at vendor and product level")
 	public void response_should_contatin_taxes_object() {
-		
+				
 		logger.info("First Vendor Tax - " + response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".taxes"));
 		float firstVendorTax = response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".taxes.amount");
 		
