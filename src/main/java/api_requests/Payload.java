@@ -111,16 +111,16 @@ public class Payload {
 		
 	}
 	
-	public static String syncShopifyProducts(boolean isAdult, boolean isAgeRestricted) {
+	public static String syncShopifyProducts(String isAdult, String isAgeRestricted, String shopifyToken) {
 		
-		return "{"
-				+ "\"storeName\":\"shop-types\","
-				+ "\"apiKey\":\"06f9d72b9670dcc715e5b0e42768b37d\","
-				+ "\"password\":\"e202eb4a13cae81e8eeed939f0529385\","
-				+ "\"timestamp\":" + Utilities.getUnixEpochTime() + ","
-				+ "\"restrictions\":"
-				+ "{\"isAdult\":\"" + isAdult + "\","
-				+ "\"isAgeRestricted\":\"" + isAgeRestricted + "\"}"
+		return "{\r\n"
+				+ "  \"storeName\": \"shop-types\",\r\n"
+				+ "  \"accessToken\": \"" + shopifyToken + "\",\r\n"
+				+ "  \"timestamp\": " + Utilities.getUnixEpochTime() + ",\r\n"
+				+ "  \"restrictions\": {\r\n"
+				+ "    \"isAdult\": \"" + isAdult +"\",\r\n"
+				+ "    \"isAgeRestricted\": \"" + isAgeRestricted + "\"\r\n"
+				+ "  }\r\n"
 				+ "}";
 		
 	}

@@ -276,7 +276,7 @@ public class PaymentPayoutConfig extends BaseClass {
 	@When("Import product from shopify api is hit")
 	public void import_product_from_shopify_api_is_hit() {
 		
-		payload = Payload.syncShopifyProducts(true, true);
+		payload = Payload.syncShopifyProducts("true", "true", prop.getProperty("shopifyAdminAccessToken"));
 		logger.info("Payload for syncing shopify store - " + payload);
 	    
 		response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), automationVendorToken, payload);

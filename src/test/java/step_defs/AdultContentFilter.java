@@ -17,7 +17,7 @@ public class AdultContentFilter extends BaseClass {
 	@When("Import product from shopify api is hit with adult content filter")
 	public void import_product_from_shopify_api_is_hit_with_adult_content_filter() {
 	    
-		payload = Payload.syncShopifyProducts(true, false);
+		payload = Payload.syncShopifyProducts("true", "false", prop.getProperty("shopifyAdminAccessToken"));
 		logger.info("Payload for syncing shopify store - " + payload);
 	    
 		response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), automationVendorToken, payload);
@@ -82,7 +82,7 @@ public class AdultContentFilter extends BaseClass {
 	@When("Import product from shopify api is hit with age restricted adult content filter")
 	public void import_product_from_shopify_api_is_hit_with_age_restricted_adult_content_filter() {
 	    
-		payload = Payload.syncShopifyProducts(false, true);
+		payload = Payload.syncShopifyProducts("false", "true", prop.getProperty("shopifyAdminAccessToken"));
 		logger.info("Payload for syncing shopify store - " + payload);
 	    
 		response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), automationVendorToken, payload);
@@ -132,7 +132,7 @@ public class AdultContentFilter extends BaseClass {
 	@When("Import product from shopify api is hit with age restricted and adult content filter")
 	public void import_product_from_shopify_api_is_hit_with_age_restricted_and_adult_content_filter() {
 	    
-		payload = Payload.syncShopifyProducts(true, true);
+		payload = Payload.syncShopifyProducts("true", "true", prop.getProperty("shopifyAdminAccessToken"));
 		logger.info("Payload for syncing shopify store - " + payload);
 	    
 		response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), automationVendorToken, payload);
@@ -182,7 +182,7 @@ public class AdultContentFilter extends BaseClass {
 	@When("Import product from shopify api is hit with no adult content filters are selected")
 	public void import_product_from_shopify_api_is_hit_with_no_adult_content_filters_are_selected() {
 	    
-		payload = Payload.syncShopifyProducts(false, false);
+		payload = Payload.syncShopifyProducts("false", "false", prop.getProperty("shopifyAdminAccessToken"));
 		logger.info("Payload for syncing shopify store - " + payload);
 	    
 		response = APIRequest.syncShopifyStore(prop.getProperty("backend_beta_url"), automationVendorToken, payload);
