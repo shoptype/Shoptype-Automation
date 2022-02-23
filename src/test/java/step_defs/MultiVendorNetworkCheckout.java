@@ -294,6 +294,13 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 		
 		while(true) {
 			
+			if(hitCount == 15) {
+				
+				Assert.assertTrue("Taxes at vendor and product level found", false);
+				break;
+				
+			}
+			
 			if(response.then().extract().body().jsonPath().get("order_details_per_vendor." + firstVendorId + ".cart_lines[0].taxes.amount") != null) {
 				
 				isFound = true;
