@@ -145,7 +145,7 @@ public class Payload {
 		return "{"
 				+ "\"productId\":\"" + productId + "\","
 				+ "\"vendorId\":\"" + vendorId + "\","
-				+ "\"referrerLink\":\"https://dev.shoptype.com/cosellerproducts\","
+				+ "\"referrerLink\":\"https://beta.shoptype.com/cosellerproducts\","
 				+ "\"link\":\"" + slug + "\","
 				+ "\"medium\":\"copy\","
 				+ "\"timestamp\":1629109316231,"

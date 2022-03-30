@@ -96,7 +96,7 @@ Feature: Multi Vendor Checkout on Shoptype
 		When A checkout happens
 		Then The order should be placed
 
-	@api 
+	@api
 	Scenario: Check for taxes at vendor and product level
 		Given Checkout id has been obtained 
 		When Checkout details for that order is requested 
