@@ -41,7 +41,7 @@ Feature: Multi Vendor Checkout on Shoptype
 		Given Authorization token of coseller and product id from "Second" vendor is obtained
 		When Get Publish Slug API is hit with "Second" vendor product id
 		Then Get the publish slug url for "second" vendor product
-	
+
 	@api
 	Scenario: Publish the product from first vendor
 		Given Authorization token, "First" vendor id, coseller id, product id and link is obtained

@@ -53,13 +53,13 @@ public class SignUp {
 		
 		firstName.sendKeys(data.get("first_name"));
 		lastName.sendKeys(data.get("last_name"));
-		countryCodeDropDown.click();
-		wait.until(ExpectedConditions.visibilityOf(countryCodeSearchBox));
-		countryCodeSearchBox.sendKeys("91");
-		wait.until(ExpectedConditions.visibilityOf(countryCode));
-		countryCode.click();
-		phone.sendKeys(data.get("phone_number"));
-		Thread.sleep(3000);
+//		countryCodeDropDown.click();
+//		wait.until(ExpectedConditions.visibilityOf(countryCodeSearchBox));
+//		countryCodeSearchBox.sendKeys("91");
+//		wait.until(ExpectedConditions.visibilityOf(countryCode));
+//		countryCode.click();
+//		phone.sendKeys(data.get("phone_number"));
+//		Thread.sleep(3000);
 		try {
 			email.get(0).sendKeys(data.get("email"));
 		} catch (Exception e) {
