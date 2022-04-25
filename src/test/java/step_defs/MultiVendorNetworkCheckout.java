@@ -296,7 +296,7 @@ public class MultiVendorNetworkCheckout extends BaseClass {
 			
 			if(hitCount == 15) {
 				
-				Assert.assertTrue("Taxes at vendor and product level found", false);
+				Assert.assertTrue("Taxes at vendor and product level not found", false);
 				break;
 				
 			}

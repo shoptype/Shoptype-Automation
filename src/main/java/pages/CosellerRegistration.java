@@ -50,7 +50,6 @@ public class CosellerRegistration {
 		
 		firstName.sendKeys(data.get("first_name"));
 		lastName.sendKeys(data.get("last_name"));
-		phone.sendKeys(data.get("phone_number"));
 		Thread.sleep(3000);
 		email.sendKeys(data.get("email"));
 		password.sendKeys(data.get("password"));
