@@ -135,8 +135,9 @@ public class EmailNotifications extends BaseClass{
 	@When("The user clicks on cosell and registers as a  new user")
 	public void coseller_signup() throws IOException, InterruptedException {
 		
-		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.cosell));
-		cosellerRegistration.cosell.click();
+		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.shareThis));
+		je.executeScript("arguments[0].click();", cosellerRegistration.cosell);
+//		cosellerRegistration.cosell.click();
 		je.executeScript("arguments[0].scrollIntoView();", cosellerRegistration.cosellRegister);
 		cosellerRegistration.cosellRegister.click();
 		logger.info("Clicked on register button");

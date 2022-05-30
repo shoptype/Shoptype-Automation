@@ -67,7 +67,8 @@ public class MultipleProductCheckout extends BaseClass {
 		
 		logger.info("Added all elements to cart");
 		wait.until(ExpectedConditions.elementToBeClickable(checkout.checkout));
-		checkout.checkout.click();
+		je.executeScript("arguments[0].click();", checkout.checkout);
+//		checkout.checkout.click();
 		logger.info("Clicked on checkout");
 
 	}
