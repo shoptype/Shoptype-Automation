@@ -22,7 +22,7 @@ public class CosellerRegistration {
 	@FindBy(id = "st-login-handler-cosell-steps-form-proceed-to-register")
 	public WebElement cosellRegister;
 	
-	@FindBy(xpath = "//div[contains(text(), 'Share')]")
+	@FindBy(xpath = "//div[contains(text(), 'Cosell')]")
 	public WebElement shareThis;
 	
 	@FindBy(id = "link-to-sign-up")

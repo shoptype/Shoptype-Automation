@@ -135,11 +135,11 @@ public class EmailNotifications extends BaseClass{
 	@When("The user clicks on cosell and registers as a  new user")
 	public void coseller_signup() throws IOException, InterruptedException {
 		
-		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.shareThis));
+		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.cosell));
 		je.executeScript("arguments[0].click();", cosellerRegistration.cosell);
 //		cosellerRegistration.cosell.click();
-		je.executeScript("arguments[0].scrollIntoView();", cosellerRegistration.cosellRegister);
-		cosellerRegistration.cosellRegister.click();
+		je.executeScript("arguments[0].click();", cosellerRegistration.cosellRegister);
+//		cosellerRegistration.cosellRegister.click();
 		logger.info("Clicked on register button");
 		je.executeScript("arguments[0].scrollIntoView();", cosellerRegistration.signUpCosell);
 		wait.until(ExpectedConditions.elementToBeClickable(cosellerRegistration.signUpCosell));
@@ -190,8 +190,8 @@ public class EmailNotifications extends BaseClass{
 	public void sent_invite() {
 		
 		wait.until(ExpectedConditions.elementToBeClickable(notifications.sendForgotPasswordEmail));
-		je.executeScript("arguments[0].scrollIntoView();", notifications.sendForgotPasswordEmail);
-		notifications.sendForgotPasswordEmail.click();
+		je.executeScript("arguments[0].click();", notifications.sendForgotPasswordEmail);
+//		notifications.sendForgotPasswordEmail.click();
 		logger.info("Refer email sent");
 		
 	}

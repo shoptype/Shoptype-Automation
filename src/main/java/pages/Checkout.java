@@ -15,7 +15,7 @@ public class Checkout {
 
 	}
 	
-	@FindBy(xpath = "//button[contains(text(), 'Buy Now')]")
+	@FindBy(xpath = "//button[contains(text(), 'Buy')]")
 	public WebElement buyNow;
 	
 	@FindBy(xpath = "//button[contains(text(), 'Checkout')]")

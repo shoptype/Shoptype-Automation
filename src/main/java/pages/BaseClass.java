@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -111,12 +113,14 @@ public class BaseClass {
 		options.addArguments("--disable-extensions");
 		options.addArguments("--no-sandbox");
 		options.addArguments("--allow-insecure-localhost");
+		options.addArguments("--window-size=1920,1080");
 		
 		driver = new ChromeDriver(options);
 		
 		wait = new WebDriverWait(driver, 20);
 		driver.get(url);
 		driver.manage().window().maximize();
+		driver.manage().window().setSize(new Dimension(1920, 1080));
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 	}
